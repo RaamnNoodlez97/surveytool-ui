@@ -1,18 +1,18 @@
-ID: surveytools-ui
+ID: surveytool-ui
 _schema-version: 3.2.0
 version: 0.0.1
 parameters:
   enable-parallel-deployments: true
 modules:
-  - name: surveytools-ui
+  - name: surveytool-ui
     type: nodejs
     path: approuter
     parameters:
       disk-quota: 512M
       memory: 512M
     requires:
-      - name: surveytools_destination
-      - name: surveytools_xsuaa
+      - name: surveytool_destination
+      - name: surveytool_xsuaa
     # properties:
     #   SESSION-TIMEOUT: 20
     #   destinations: '[{"name":"surveyTools_srv", 
@@ -24,23 +24,23 @@ modules:
         - npm install
         - npm run build:ui --prefix ..
 
-  # - name: surveyTools_srv
-  #   type: nodejs
-  #   path: mta_service
-  #   parameters:
-  #     memory: 512M
-  #     disk-quota: 256M
-  #   build-parameters:
-  #     supported-platforms: [CF]
-  #     builder: custom
-  #     commands:
-  #       - npm install
-  #   requires:
-  #     - name: ashirNodeMTA_destination
-  #     - name: ashirNodeMTA_xsuaa
+  - name: surveytool-srv
+    type: nodejs
+    path: surveytool-srv
+    parameters:
+      memory: 512M
+      disk-quota: 256M
+    build-parameters:
+      supported-platforms: [CF]
+      builder: custom
+      commands:
+        - npm install
+    requires:
+      - name: surveytool_destination
+      - name: surveytool_xsuaa
         
 resources:
-  - name: surveytools_destination
+  - name: surveytool_destination
     type: org.cloudfoundry.managed-service
     parameters:
       service-plan: lite
@@ -49,7 +49,7 @@ resources:
         HTML5Runtime_enabled: true
         version: 1.0.0
     
-  - name: surveytools_xsuaa
+  - name: surveytool_xsuaa
     type: org.cloudfoundry.managed-service
     parameters:
       path: security/xs-security.json

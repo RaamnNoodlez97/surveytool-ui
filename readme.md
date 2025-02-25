@@ -1,1 +1,1 @@
-SurveyTools UI
+surveytool-ui
