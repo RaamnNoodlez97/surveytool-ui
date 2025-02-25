@@ -11,7 +11,7 @@
     "lint": "eslint ./**/webapp/**/*.js && prettier --plugin-search-dir=. --check ./**/webapp/**/*.{js,xml}",
     "lint-fix": "eslint ./**/webapp/**/*.js --fix && prettier --plugin-search-dir=. --write ./**/webapp/**/*.{js,xml} --no-error-on-unmatched-pattern",
     "build:mta": "mbt build",
-    "deploy:cf": "cross-var cf deploy mta_archives/surveyTools_ui_$npm_package_version.mtar",
+    "deploy:cf": "cross-var cf deploy mta_archives/surveytool_$npm_package_version.mtar",
     "deploy": "run-s build:mta deploy:cf",
     "serve:uimodule": "ui5 serve --config=uimodule/ui5.yaml",
     "build:uimodule": "ui5 build --config=uimodule/ui5.yaml --clean-dest --dest approuter/uimodule/webapp"
