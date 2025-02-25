@@ -57,11 +57,7 @@
         "settings": {
           "preload": true
         }
-      },
-      "perPersonal": {
-        "type": "sap.ui.model.json.JSONModel",
-        "uri": "/api/user/PerPersonal"
-      } 
+      }
     },
     "resources": {
       "css": [

@@ -1,6 +1,6 @@
 specVersion: "2.2"
 metadata:
-  name: surveyTools_uimodule
+  name: surveytools-ui
 type: application
 resources:
   configuration:
