@@ -57,6 +57,14 @@
         "settings": {
           "preload": true
         }
+      },
+      "sfData": {
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "/api/auth/TestSF"  
+      },
+      "sfApi": {
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "/api/auth/TestSFAPI"  
       }
     },
     "resources": {

@@ -7,7 +7,12 @@ sap.ui.define(
         "use strict";
 
         return Controller.extend("mta.MTA1.controller.MainView", {
-            onInit: function () {}
+            onInit: function () {
+              var oModel = this.getView().getModel("sfData");
+              this.getView().setModel(oModel, "sfData");
+
+              console.log('in main view controller, sfData (principal propagation) oModel: ' + oModel);
+            }
             // ,
             // onNavToSF: function() {
             //     var oRouter = this.getOwnerComponent().getRouter();

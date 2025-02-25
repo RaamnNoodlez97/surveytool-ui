@@ -1,6 +1,6 @@
 <mvc:View controllerName="mta.MTA1.controller.MainView" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m">
     <Page id="page" title="Survey app">
-        <!-- <content>
+        <content>
             
             <Button
                 text="Show Employees"
@@ -24,15 +24,15 @@
                 <items>
                 <ColumnListItem>
                     <cells>
-                        <Text text="{PerPersonal>firstName}"/>
-                        <Text text="{PerPersonal>lastName}"/>
-                        <Text text="{PerPersonal>personIdExternal}"/>
+                        <Text text="{sfData>firstName}"/>
+                        <Text text="{sfData>lastName}"/>
+                        <Text text="{sfData>personIdExternal}"/>
                     </cells>
                 </ColumnListItem>
                 </items>
             </Table>
 
 
-        </content> -->
+        </content>
     </Page>
 </mvc:View>
