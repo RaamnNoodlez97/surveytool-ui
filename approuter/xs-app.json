@@ -1,6 +1,6 @@
 {
   "welcomeFile": "uimodule/index.html",
-  "authenticationMethod": "none",
+  "authenticationMethod": "route",
   "logout": {
     "logoutEndpoint": "/do/logout"
   },
@@ -8,7 +8,7 @@
     {
       "source": "^/uimodule/(.*)$",
       "target": "$1",
-      "authenticationType": "none",
+      "authenticationType": "xsuaa",
       "localDir": "uimodule/webapp"
     }
   ]
