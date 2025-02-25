@@ -1,0 +1,38 @@
+<mvc:View controllerName="mta.MTA1.controller.MainView" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            
+            <Button
+                text="Show Employees"
+                press=".onShowEmployees"
+                type="Emphasized"/>
+            <Table
+                id="employeeTable"
+                visible="false"
+                items="{perPersonal>/data/d/results}">
+                <columns>
+                <Column>
+                    <Text text="First Name"/>
+                </Column>
+                <Column>
+                    <Text text="Last Name"/>
+                </Column>
+                <Column>
+                    <Text text="Employee ID"/>
+                </Column>
+                </columns>
+                <items>
+                <ColumnListItem>
+                    <cells>
+                        <Text text="{perPersonal>firstName}"/>
+                        <Text text="{perPersonal>lastName}"/>
+                        <Text text="{perPersonal>personIdExternal}"/>
+                    </cells>
+                </ColumnListItem>
+                </items>
+            </Table>
+
+
+        </content>
+    </Page>
+</mvc:View>

@@ -1,0 +1,57 @@
+ID: ashirNodeMTA
+_schema-version: 3.2.0
+version: 0.0.1
+parameters:
+  enable-parallel-deployments: true
+modules:
+  - name: ashirNodeMTA
+    type: nodejs
+    path: approuter
+    parameters:
+      disk-quota: 512M
+      memory: 512M
+    requires:
+      - name: ashirNodeMTA_destination
+      - name: ashirNodeMTA_xsuaa
+    properties:
+      SESSION-TIMEOUT: 20
+      destinations: '[{"name":"ashirNodeMTA_srv", 
+                        "url" :"https://epi-use-africa--pty--ltd-euaf-free-tier-hosting-jblqyqdo52340aa.cfapps.jp10.hana.ondemand.com", 
+                        "forwardAuthToken": true}]'
+    build-parameters:
+      builder: custom
+      commands:
+        - npm install
+        - npm run build:ui --prefix ..
+
+  - name: ashirNodeMTA_srv
+    type: nodejs
+    path: mta_service
+    parameters:
+      memory: 512M
+      disk-quota: 256M
+    build-parameters:
+      supported-platforms: [CF]
+      builder: custom
+      commands:
+        - npm install
+    requires:
+      - name: ashirNodeMTA_destination
+      - name: ashirNodeMTA_xsuaa
+        
+resources:
+  - name: ashirNodeMTA_destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service-plan: lite
+      service: destination
+      config:
+        HTML5Runtime_enabled: true
+        version: 1.0.0
+    
+  - name: ashirNodeMTA_xsuaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      path: security/xs-security.json
+      service: xsuaa
+      service-plan: application

@@ -1,18 +1,24 @@
 {
-  "generator-ui5-app": {
-    "namespace": "com.myorg.myapp",
-    "framework": "SAPUI5",
-    "frameworkVersion": "1.133.0",
-    "author": "RaamnNoodlez97",
-    "initrepo": false,
-    "appId": "com.myorg.myapp",
-    "appURI": "com/myorg/myapp",
-    "cdnDomain": "ui5.sap.com",
-    "defaultTheme": "sap_horizon",
-    "qunitCoverageFile": "qunit-coverage-istanbul.js",
-    "gte1_98_0": true,
-    "gte1_104_0": true,
-    "lt1_124_0": false,
+  "generator-template-ui5-project": {
+    "projectname": "MTA1",
+    "namespaceUI5": "mta",
+    "enableFPM": false,
+    "platform": "Application Router @ Cloud Foundry",
+    "viewtype": "XML",
+    "ui5libs": "Content delivery network (SAPUI5)",
+    "newdir": false,
+    "codeassist": false,
+    "initrepo": true,
+    "namespaceURI": "mta",
+    "opa5pos": [
+      "Main"
+    ],
+    "opa5Journeys": [
+      "Main"
+    ],
+    "uimodules": [
+      "uimodule"
+    ],
     "setupCompleted": true
   }
 }
