@@ -2,14 +2,14 @@
     <Page id="page" title="Survey app">
         <content>
             
-            <Button
+            <!-- <Button
                 text="Show Employees"
                 press=".onShowEmployees"
-                type="Emphasized"/>
+                type="Emphasized"/> -->
             <Table
                 id="employeeTable"
                 visible="false"
-                items="{PerPersonal>/data/d/results}">
+                items="{sfData>/data/d/results}">
                 <columns>
                 <Column>
                     <Text text="First Name"/>
