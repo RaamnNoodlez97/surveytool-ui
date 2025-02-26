@@ -13,11 +13,11 @@ modules:
     requires:
       - name: surveyTools_destination
       - name: surveyTools_xsuaa
-    # properties:
-    #   SESSION-TIMEOUT: 20
-    #   destinations: '[{"name":"surveyTools_srv", 
-    #                     "url" :"https://epi-use-africa--pty--ltd-euaf-free-tier-hosting-jblqyqdo52340aa.cfapps.jp10.hana.ondemand.com", 
-    #                     "forwardAuthToken": true}]'
+    properties:
+      SESSION-TIMEOUT: 20
+      destinations: '[{"name":"surveyTools_srv", 
+                        "url" :"https://epi-use-africa--pty--ltd-euaf-free-tier-hosting-jblqyqd1ce6bf1c.cfapps.jp10.hana.ondemand.com", 
+                        "forwardAuthToken": true}]'
     build-parameters:
       builder: custom
       commands:
