@@ -1,0 +1,15 @@
+<mvc:View controllerName="mta.MTA1.controller.HelloWorld" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m">
+    <Page id="page" title="Survey app">
+        <content>
+            
+            <Button
+                text="Go Back"
+                press=".onGoBack"
+                />
+            <Text
+                text="{helloworld>/data}"
+            />
+
+        </content>
+    </Page>
+</mvc:View>

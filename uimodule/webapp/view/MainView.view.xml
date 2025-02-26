@@ -2,36 +2,19 @@
     <Page id="page" title="Survey app">
         <content>
             
-            <!-- <Button
-                text="Show Employees"
-                press=".onShowEmployees"
-                type="Emphasized"/> -->
-            <Table
-                id="employeeTable"
-                visible="false"
-                items="{sfData>/data/d/results}">
-                <columns>
-                <Column>
-                    <Text text="First Name"/>
-                </Column>
-                <Column>
-                    <Text text="Last Name"/>
-                </Column>
-                <Column>
-                    <Text text="Employee ID"/>
-                </Column>
-                </columns>
-                <items>
-                <ColumnListItem>
-                    <cells>
-                        <Text text="{sfData>firstName}"/>
-                        <Text text="{sfData>lastName}"/>
-                        <Text text="{sfData>personIdExternal}"/>
-                    </cells>
-                </ColumnListItem>
-                </items>
-            </Table>
-
+            <Button
+                text="Show Hello World"
+                press=".onShowHelloWorld"
+                />
+            <Button
+                text="Show SF Principal Propagation"
+                press=".onShowSFPrincipalPropagation"
+                />
+            <Button
+                text="Show SF API"
+                press=".onShowSFapi"
+                />
+            
 
         </content>
     </Page>

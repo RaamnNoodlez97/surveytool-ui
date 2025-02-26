@@ -13,31 +13,16 @@ modules:
     requires:
       - name: surveytool_destination
       - name: surveytool_xsuaa
-    # properties:
-    #   SESSION-TIMEOUT: 20
-    #   destinations: '[{"name":"surveyTools_srv", 
-    #                     "url" :"https://epi-use-africa--pty--ltd-euaf-free-tier-hosting-jblqyqdo52340aa.cfapps.jp10.hana.ondemand.com", 
-    #                     "forwardAuthToken": true}]'
+    properties:
+      SESSION-TIMEOUT: 20
+      destinations: '[{"name":"surveytool-srv", 
+                        "url" :"https://epi-use-africa--pty--ltd-euaf-free-tier-hosting-jblqyqd51872e83.cfapps.jp10.hana.ondemand.com", 
+                        "forwardAuthToken": true}]'
     build-parameters:
       builder: custom
       commands:
         - npm install
         - npm run build:ui --prefix ..
-
-  - name: surveytool-srv
-    type: nodejs
-    path: surveytool-srv
-    parameters:
-      memory: 512M
-      disk-quota: 256M
-    build-parameters:
-      supported-platforms: [CF]
-      builder: custom
-      commands:
-        - npm install
-    requires:
-      - name: surveytool_destination
-      - name: surveytool_xsuaa
         
 resources:
   - name: surveytool_destination
