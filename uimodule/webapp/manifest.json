@@ -60,11 +60,15 @@
       },
       "sfData": {
         "type": "sap.ui.model.json.JSONModel",
-        "uri": "/api/auth/TestSF"  
+        "uri": "/api/test/sf"  
       },
       "sfApi": {
         "type": "sap.ui.model.json.JSONModel",
-        "uri": "/api/auth/TestSFAPI"  
+        "uri": "/api/test/sfapi"  
+      },
+      "helloworld": {
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "/api/test/helloworld"  
       }
     },
     "resources": {
@@ -91,6 +95,21 @@
           "target": [
             "TargetMainView"
           ]
+        },
+        {
+          "pattern": "helloworld",
+          "name": "helloworld",
+          "target": "helloworld"
+        },
+        {
+          "pattern": "sf",
+          "name": "sf",
+          "target": "sf"
+        },
+        {
+          "pattern": "sfapi",
+          "name": "sfapi",
+          "target": "sfapi"
         }
       ],
       "targets": {
@@ -100,6 +119,18 @@
           "clearControlAggregation": false,
           "viewId": "MainView",
           "viewName": "MainView"
+        },
+        "helloworld": {
+          "viewName": "HelloWorld",
+          "viewLevel": 1
+        },
+        "sf": {
+          "viewName": "SFView",
+          "viewLevel": 1
+        },
+        "sfapi": {
+          "viewName": "SFApi",
+          "viewLevel": 1
         }
       }
     },
