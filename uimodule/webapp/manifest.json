@@ -57,18 +57,6 @@
         "settings": {
           "preload": true
         }
-      },
-      "sfData": {
-        "type": "sap.ui.model.json.JSONModel",
-        "uri": "/api/test/sf"  
-      },
-      "sfApi": {
-        "type": "sap.ui.model.json.JSONModel",
-        "uri": "/api/test/sfapi"  
-      },
-      "helloworld": {
-        "type": "sap.ui.model.json.JSONModel",
-        "uri": "/api/test/helloworld"  
       }
     },
     "resources": {
@@ -107,9 +95,9 @@
           "target": "sf"
         },
         {
-          "pattern": "sfapi",
-          "name": "sfapi",
-          "target": "sfapi"
+          "pattern": "contentView/{contentType}",
+          "name": "contentView",
+          "target": "ContentView"
         }
       ],
       "targets": {
@@ -128,9 +116,9 @@
           "viewName": "SFView",
           "viewLevel": 1
         },
-        "sfapi": {
-          "viewName": "SFApi",
-          "viewLevel": 1
+        "ContentView": {
+        "viewName": "ContentView",
+        "viewLevel": 2
         }
       }
     },

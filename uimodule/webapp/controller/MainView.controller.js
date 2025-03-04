@@ -9,22 +9,29 @@ sap.ui.define(
         return Controller.extend("mta.MTA1.controller.MainView", {
             onInit: function () {
                 var oModel = this.getView().getModel("sfData");
-                this.getView().setModel(oModel, "sfData");
+                // this.getView().setModel(oModel, "sfData");
   
-                console.log('in main view controller, sfData (principal propagation) oModel: ' + oModel);
+                // console.log('in main view controller, sfData (principal propagation) oModel: ' + oModel);
               },
-              onShowHelloWorld: function() {
+              // onShowHelloWorld: function() {
+              //   var oRouter = this.getOwnerComponent().getRouter();
+              //   oRouter.navTo("helloworld");
+              // },
+              // onShowSFPrincipalPropagation: function() {
+              //   var oRouter = this.getOwnerComponent().getRouter();
+              //   oRouter.navTo("sf");
+              // },
+              // onShowSFapi: function() {
+              //   var oRouter = this.getOwnerComponent().getRouter();
+              //   oRouter.navTo("sfapi");
+              // }
+              onNavigateToContent: function (oEvent) {
+                var oButton = oEvent.getSource();
+                var sContentKey = oButton.getCustomData()[0].getValue(); // Get value from CustomData
+    
                 var oRouter = this.getOwnerComponent().getRouter();
-                oRouter.navTo("helloworld");
-              },
-              onShowSFPrincipalPropagation: function() {
-                var oRouter = this.getOwnerComponent().getRouter();
-                oRouter.navTo("sf");
-              },
-              onShowSFapi: function() {
-                var oRouter = this.getOwnerComponent().getRouter();
-                oRouter.navTo("sfapi");
-              }
+                oRouter.navTo("contentView", { contentType: sContentKey });
+            }
  
         });
     }

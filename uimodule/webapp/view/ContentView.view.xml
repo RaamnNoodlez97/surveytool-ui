@@ -1,0 +1,10 @@
+<mvc:View controllerName="mta.MTA1.controller.ContentView" 
+          xmlns:mvc="sap.ui.core.mvc" 
+          displayBlock="true" 
+          xmlns="sap.m">
+    <Page id="contentPage" title="Dynamic Content" showNavButton="true" navButtonPress=".onNavBack">
+        <content>
+            <VBox id="dynamicContent"></VBox>
+        </content>
+    </Page>
+</mvc:View>
