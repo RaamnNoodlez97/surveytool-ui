@@ -108,14 +108,6 @@
           "viewId": "MainView",
           "viewName": "MainView"
         },
-        "helloworld": {
-          "viewName": "HelloWorld",
-          "viewLevel": 1
-        },
-        "sf": {
-          "viewName": "SFView",
-          "viewLevel": 1
-        },
         "ContentView": {
         "viewName": "ContentView",
         "viewLevel": 2
