@@ -38,12 +38,12 @@ sap.ui.define(
                 oRouter.navTo("contentView", { contentType: sContentKey });
             },
 
-            onNavigateToTest: function (oEvent) {
+            onNavigateToCreateSurvey: function (oEvent) {
                 var oButton = oEvent.getSource();
                 var sContentKey = oButton.getCustomData()[0].getValue(); // Get value from CustomData
     
                 var oRouter = this.getOwnerComponent().getRouter();
-                oRouter.navTo("test", { contentType: sContentKey });
+                oRouter.navTo("createSurvey", { contentType: sContentKey });
             }
  
         });

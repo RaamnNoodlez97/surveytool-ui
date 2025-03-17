@@ -112,9 +112,9 @@
           "target": "ContentView"
         },
         {
-          "pattern": "test",
-          "name": "test",
-          "target": "Test"
+          "pattern": "createSurvey",
+          "name": "createSurvey",
+          "target": "CreateSurvey"
         },
         {
           "pattern": "survey",
@@ -134,8 +134,8 @@
         "viewName": "ContentView",
         "viewLevel": 2
         },
-        "Test": {
-          "viewName": "test",
+        "CreateSurvey": {
+          "viewName": "CreateSurveyView",
           "viewLevel": 2
         },
         "Survey": {

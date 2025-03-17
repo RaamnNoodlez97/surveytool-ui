@@ -31,9 +31,9 @@
                         <core:CustomData key="content" value="SFAPI"/>
                     </customData>
                 </Button>
-                <Button text="Show test" press=".onNavigateToTest">
+                <Button text="Create Survey" press=".onNavigateToCreateSurvey">
                     <customData>
-                        <core:CustomData key="content" value="test"/>
+                        <core:CustomData key="content" value="CreateSurveyView"/>
                     </customData>
                 </Button>
             </VBox>

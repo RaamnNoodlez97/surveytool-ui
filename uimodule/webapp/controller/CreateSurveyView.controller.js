@@ -16,7 +16,7 @@ sap.ui.define([
 ], function(Controller, JSONModel, WizardStep, VBox, Label, Input, Button, Select, ComboBox, RadioButton, RadioButtonGroup, Toolbar, Title, History) {
     "use strict";
 
-    return Controller.extend("mta.MTA1.controller.TestView", {
+    return Controller.extend("mta.MTA1.controller.CreateSurveyView", {
 
         sectionQuestionCount: {},  
 
