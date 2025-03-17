@@ -1,0 +1,14 @@
+<PickList>
+  <Code>status_picklist</Code>
+  <Label>Survey Status</Label>
+  <Values>
+    <Value>
+      <Code>active</Code>
+      <Label>Active</Label>
+    </Value>
+    <Value>
+      <Code>inactive</Code>
+      <Label>Inactive</Label>
+    </Value>
+  </Values>
+</PickList>

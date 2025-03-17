@@ -1,0 +1,13 @@
+{
+    "surveys": [
+      {
+        "creationDate": "2024-03-10",
+        "survey_name": "Technical Internship Feedback"
+      },
+      {
+        "creationDate": "2024-03-01",
+        "survey_name": "Employee Satisfaction Survey"
+      }
+    ]
+  }
+  

@@ -1,0 +1,41 @@
+<ObjectDefinition>
+  <Code>cust_survey</Code>
+  <Label>Survey</Label>
+  <Description>Represents the overall survey.</Description>
+  <Fields>
+    <Field>
+      <Name>surveyId</Name>
+      <Type>String</Type>
+      <Required>Yes</Required>
+      <Unique>Yes</Unique>
+    </Field>
+    <Field>
+      <Name>surveyName</Name>
+      <Type>String</Type>
+      <Required>Yes</Required>
+    </Field>
+    <Field>
+      <Name>description</Name>
+      <Type>String</Type>
+      <Required>No</Required>
+    </Field>
+    <Field>
+      <Name>creationDate</Name>
+      <Type>Date</Type>
+      <Required>Yes</Required>
+    </Field>
+    <Field>
+      <Name>status</Name>
+      <Type>Picklist</Type>
+      <Required>Yes</Required>
+      <PickListCode>status_picklist</PickListCode>
+    </Field>
+  </Fields>
+  <Associations>
+    <Association>
+      <Type>One-to-Many</Type>
+      <RelatedObject>cust_question</RelatedObject>
+      <Field>question</Field>
+    </Association>
+  </Associations>
+</ObjectDefinition>

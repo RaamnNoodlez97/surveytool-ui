@@ -8,10 +8,15 @@ sap.ui.define(
  
         return Controller.extend("mta.MTA1.controller.MainView", {
             onInit: function () {
-                var oModel = this.getView().getModel("sfData");
-                // this.getView().setModel(oModel, "sfData");
-  
-                // console.log('in main view controller, sfData (principal propagation) oModel: ' + oModel);
+                var oModel = this.getOwnerComponent().getModel("surveyData");
+
+                if (oModel) {
+                    // Retrieve and log the model data
+                    var oData = oModel.getData();
+                    console.log("surveyInfo model content: ", oData);
+                } else {
+                    console.error("surveyInfo model is not available!");
+                }
               },
               // onShowHelloWorld: function() {
               //   var oRouter = this.getOwnerComponent().getRouter();
@@ -31,6 +36,14 @@ sap.ui.define(
     
                 var oRouter = this.getOwnerComponent().getRouter();
                 oRouter.navTo("contentView", { contentType: sContentKey });
+            },
+
+            onNavigateToTest: function (oEvent) {
+                var oButton = oEvent.getSource();
+                var sContentKey = oButton.getCustomData()[0].getValue(); // Get value from CustomData
+    
+                var oRouter = this.getOwnerComponent().getRouter();
+                oRouter.navTo("test", { contentType: sContentKey });
             }
  
         });

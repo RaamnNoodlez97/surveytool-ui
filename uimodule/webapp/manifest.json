@@ -57,6 +57,18 @@
         "settings": {
           "preload": true
         }
+      },
+      "surveyData": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "preload": true,
+          "json": true
+        },
+        "uri": "model/surveyData.json"
+      },
+      "surveyInfo": {
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "/api/getSurvey"
       }
     },
     "resources": {
@@ -98,6 +110,16 @@
           "pattern": "contentView/{contentType}",
           "name": "contentView",
           "target": "ContentView"
+        },
+        {
+          "pattern": "test",
+          "name": "test",
+          "target": "Test"
+        },
+        {
+          "pattern": "survey",
+          "name": "survey",
+          "target": "Survey"
         }
       ],
       "targets": {
@@ -111,6 +133,14 @@
         "ContentView": {
         "viewName": "ContentView",
         "viewLevel": 2
+        },
+        "Test": {
+          "viewName": "test",
+          "viewLevel": 2
+        },
+        "Survey": {
+          "viewName": "SurveyView",
+          "viewLevel": 2
         }
       }
     },

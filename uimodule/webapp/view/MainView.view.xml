@@ -31,6 +31,11 @@
                         <core:CustomData key="content" value="SFAPI"/>
                     </customData>
                 </Button>
+                <Button text="Show test" press=".onNavigateToTest">
+                    <customData>
+                        <core:CustomData key="content" value="test"/>
+                    </customData>
+                </Button>
             </VBox>
 
         </content>

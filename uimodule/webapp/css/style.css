@@ -1,1 +1,26 @@
 /* Enter your custom styles here */
+.surveyContainer {
+    margin-left: 2em; 
+    margin-right: 2em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.inputLabel {
+    padding-left: 0.5em; 
+    margin-top: 1em;
+}
+
+.inputField {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.sectionHeadingTitle{
+    font-size: larger;
+}
+
+.questionSubHeading {
+    margin-bottom: -0.6em;
+    font-size: medium;
+}

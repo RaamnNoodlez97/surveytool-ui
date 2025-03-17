@@ -1,0 +1,47 @@
+<ObjectDefinition>
+  <Code>cust_answer</Code>
+  <Label>Answer</Label>
+  <Description>Represents a response to a question by a respondent.</Description>
+  <Fields>
+    <Field>
+      <Name>answerId</Name>
+      <Type>String</Type>
+      <Required>Yes</Required>
+      <Unique>Yes</Unique>
+    </Field>
+    <Field>
+      <Name>UserID</Name>
+      <Type>String</Type>
+      <Required>Yes</Required>
+    </Field>
+    <Field>
+      <Name>question</Name>
+      <Type>Reference</Type>
+      <Required>Yes</Required>
+      <ReferenceObject>cust_question</ReferenceObject>
+    </Field>
+    <Field>
+      <Name>answerValue</Name>
+      <Type>Integer</Type>
+      <Required>Yes</Required>
+      <Range>1-5</Range>
+    </Field>
+    <Field>
+      <Name>answerDate</Name>
+      <Type>Date</Type>
+      <Required>Yes</Required>
+    </Field>
+  </Fields>
+  <Associations>
+    <Association>
+      <Type>Many-to-One</Type>
+      <RelatedObject>cust_question</RelatedObject>
+      <Field>question</Field>
+    </Association>
+    <!-- <Association>
+      <Type>Many-to-One</Type>
+      <RelatedObject>Person</RelatedObject>
+      <Field>respondent</Field>
+    </Association> -->
+  </Associations>
+</ObjectDefinition>

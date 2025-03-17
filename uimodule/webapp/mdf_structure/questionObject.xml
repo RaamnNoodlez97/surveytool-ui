@@ -1,0 +1,46 @@
+<ObjectDefinition>
+  <Code>cust_question</Code>
+  <Label>Question</Label>
+  <Description>Represents an individual Likert scale question within a subtopic.</Description>
+  <Fields>
+    <Field>
+      <Name>questionId</Name>
+      <Type>String</Type>
+      <Required>Yes</Required>
+      <Unique>Yes</Unique>
+    </Field>
+    <Field>
+      <Name>questionSubtopic</Name>
+      <Type>String</Type>
+      <Required>Yes</Required>
+    </Field>
+    <Field>
+      <Name>questionText</Name>
+      <Type>String</Type>
+      <Required>Yes</Required>
+    </Field>
+    <Field>
+      <Name>surveyId</Name>
+      <Type>Reference</Type>
+      <Required>Yes</Required>
+    </Field>
+    <Field>
+      <Name>measure</Name>
+      <Type>PickList</Type>
+      <Required>Yes</Required>
+      <PickListCode>measure_picklist</PickListCode>
+    </Field>
+  </Fields>
+  <Associations>
+    <Association>
+      <Type>Many-to-One</Type>
+      <RelatedObject>cust_survey</RelatedObject>
+      <Field>survey</Field>
+    </Association>
+    <Association>
+      <Type>One-to-Many</Type>
+      <RelatedObject>cust_answer</RelatedObject>
+      <Field>answers</Field>
+    </Association>
+  </Associations>
+</ObjectDefinition>

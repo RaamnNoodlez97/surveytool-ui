@@ -1,0 +1,22 @@
+<PickList>
+  <Code>measure_picklist</Code>
+  <Label>Measure Types</Label>
+  <Values>
+    <Value>
+      <Code>satisfaction</Code>
+      <Label>Satisfaction</Label>
+    </Value>
+    <Value>
+      <Code>frequency</Code>
+      <Label>Frequency</Label>
+    </Value>
+    <Value>
+      <Code>agreement</Code>
+      <Label>Agreement</Label>
+    </Value>
+    <Value>
+      <Code>quality</Code>
+      <Label>Quality</Label>
+    </Value>
+  </Values>
+</PickList>
