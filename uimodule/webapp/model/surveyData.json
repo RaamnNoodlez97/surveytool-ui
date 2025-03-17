@@ -1,13 +1,38 @@
 {
-    "surveys": [
+  "surveyHeader": {
+      "surveyName": "Graduate Training Program",
+      "surveyDescription": "Improve on the graduate program by receiving valuable insights from graduates",
+      "surveyStatus": "Draft",
+      "surveyId": "123"
+  },
+  "surveySections": [
       {
-        "creationDate": "2024-03-10",
-        "survey_name": "Technical Internship Feedback"
+          "sectionName": "Payroll Training",
+          "sectionDescription": "How satisfied were you with the payroll training?",
+          "sectionQuestions": [
+              {
+                  "questionText": "How satisfied were you with the payroll training material provided?",
+                  "questionType": "Satisfaction"
+              },
+              {
+                  "questionText": "How satisfied were you with the way Irene presented the training sessions?",
+                  "questionType": "Satisfaction"
+              }
+          ]
       },
       {
-        "creationDate": "2024-03-01",
-        "survey_name": "Employee Satisfaction Survey"
+          "sectionName": "ABAP Training",
+          "sectionDescription": "How satisfied were you with the ABAP training?",
+          "sectionQuestions": [
+              {
+                  "questionText": "How satisfied were you with the ABAP training material provided?",
+                  "questionType": "Satisfaction"
+              },
+              {
+                  "questionText": "How satisfied were you with the way Tristan presented the training sessions?",
+                  "questionType": "Satisfaction"
+              }
+          ]
       }
-    ]
-  }
-  
+  ]
+}

@@ -117,7 +117,7 @@
           "target": "CreateSurvey"
         },
         {
-          "pattern": "survey",
+          "pattern": "survey/{surveyId}",
           "name": "survey",
           "target": "Survey"
         }
