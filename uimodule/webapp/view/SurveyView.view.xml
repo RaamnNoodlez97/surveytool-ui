@@ -1,7 +1,59 @@
 <mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" controllerName="mta.MTA1.controller.SurveyView" >
 	<Page id="surveyPage" title="{surveyData>/surveyHeader/surveyName}" showNavButton="true" navButtonPress=".onNavBack">
         <content>
-            <Wizard id="surveyWizard" complete="onReview"></Wizard>
+            <Wizard id="surveyWizard" complete="onReview" steps="{surveyData>/surveySections}" width="100%">
+                <WizardStep title="{surveyData>sectionName}">
+                    <HBox class="sapUiSmallMarginBottom">
+                        <Text text="" width="600px"></Text>
+                        <Text text="{path: 'surveyData>sectionLikertScale',formatter: '.formatter.firstScale'}" width="100px"/>
+                        <Text text="{path: 'surveyData>sectionLikertScale',formatter: '.formatter.secondScale'}" width="100px"/>
+                        <Text text="{path: 'surveyData>sectionLikertScale',formatter: '.formatter.thirdScale'}" width="100px"/>
+                        <Text text="{path: 'surveyData>sectionLikertScale',formatter: '.formatter.fourthScale'}" width="100px"/>
+                        <Text text="{path: 'surveyData>sectionLikertScale',formatter: '.formatter.fifthScale'}" width="100px"/>
+                    </HBox>
+                    
+                    <VBox items="{
+                            path: 'surveyData>sectionQuestions',
+                            templateShareable: false
+                        }">
+                        <HBox>
+                             <Label text="{surveyData>questionText}" design="Bold" class="sapUiTinyMarginTop" width="600px"/>
+                             <RadioButtonGroup columns="5">
+                                <RadioButton text="" select=".onRadioSelect" width="100px" textAlign="Center">
+                                    <customData>
+                                        <core:CustomData key="value" value="1"/>
+                                        <core:CustomData key="questionExternalCode" value="{surveyData>questionExternalCode}"/>
+                                    </customData>
+                                </RadioButton>
+                                <RadioButton text="" select=".onRadioSelect" width="100px" textAlign="Center">
+                                <customData>
+                                        <core:CustomData key="value" value="2"/>
+                                        <core:CustomData key="questionExternalCode" value="{surveyData>questionExternalCode}"/>
+                                    </customData>
+                                </RadioButton>
+                                <RadioButton text="" select=".onRadioSelect" width="100px" textAlign="Center">
+                                <customData>
+                                        <core:CustomData key="value" value="3"/>
+                                        <core:CustomData key="questionExternalCode" value="{surveyData>questionExternalCode}"/>
+                                    </customData>
+                                </RadioButton>
+                                <RadioButton text="" select=".onRadioSelect" width="100px" textAlign="Center">
+                                <customData>
+                                        <core:CustomData key="value" value="4"/>
+                                        <core:CustomData key="questionExternalCode" value="{surveyData>questionExternalCode}"/>
+                                    </customData>
+                                </RadioButton>
+                                <RadioButton text="" select=".onRadioSelect" width="100px" textAlign="Center">
+                                <customData>
+                                        <core:CustomData key="value" value="5"/>
+                                        <core:CustomData key="questionExternalCode" value="{surveyData>questionExternalCode}"/>
+                                    </customData>
+                                </RadioButton>
+                             </RadioButtonGroup>
+                        </HBox>
+                    </VBox>
+                </WizardStep>
+            </Wizard>
         </content>
     </Page>
 </mvc:View>

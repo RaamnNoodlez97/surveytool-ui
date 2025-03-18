@@ -9,13 +9,28 @@ sap.ui.define([
     "sap/m/Button",
     "sap/m/Text",
     "sap/ui/core/routing/History",
-], function (Controller, JSONModel, WizardStep, VBox, Label, RadioButtonGroup, RadioButton, Button, Text, History) {
+    "mta/MTA1/model/formatter"
+], function (Controller, JSONModel, WizardStep, VBox, Label, RadioButtonGroup, RadioButton, Button, Text, History, formatter) {
     "use strict";
 
     return Controller.extend("mta.MTA1.controller.SurveyView", {
+        formatter: formatter,
+
         onInit: function () {
             const oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("survey").attachPatternMatched(this.onObjectMatched, this);
+
+            // Initialize response model
+            let oResponseModel = new sap.ui.model.json.JSONModel({
+                responseHeader: {
+                    responseUser: "EU_ASHIR",
+                    responseDate: new Date().toISOString(),
+                    responseSurvey: ""
+                },
+                responseAnswers: []
+            });
+
+            this.getView().setModel(oResponseModel, "responseData");
         },
 
         onObjectMatched(oEvent) {
@@ -25,39 +40,51 @@ sap.ui.define([
 		},
 
         loadSurveyData: function (surveyId) {
-            let oView = this.getView();
-            let oSurveyModel = new JSONModel();
-
-            let sUrl = "/api/getSurvey?code=" + encodeURIComponent(surveyId);
-
-            oSurveyModel.loadData(sUrl)
-            .then(() => {
-                console.log("Survey Data Loaded:", oSurveyModel.getData());
-                oView.setModel(oSurveyModel, "surveyData");
-
-                // Dynamically generate wizard steps
-                this.generateSurveyWizardSteps();
-            })
-            .catch(error => {
-                console.error("Error loading survey data:", error);
-                sap.m.MessageToast.show("Failed to load survey. Please try again.");
-            });
-
             // let oView = this.getView();
             // let oSurveyModel = new JSONModel();
 
-            // oSurveyModel.loadData("../model/surveyData.json")
+            // let sUrl = "/api/getSurvey?code=" + encodeURIComponent(surveyId);
+
+            // oSurveyModel.loadData(sUrl)
             // .then(() => {
             //     console.log("Survey Data Loaded:", oSurveyModel.getData());
             //     oView.setModel(oSurveyModel, "surveyData");
 
-            //     // Once loaded, dynamically generate wizard steps
             //     this.generateSurveyWizardSteps();
             // })
             // .catch(error => {
             //     console.error("Error loading survey data:", error);
-            //     sap.m.MessageToast.show("Could not load survey data.");
+            //     sap.m.MessageToast.show("Failed to load survey. Please try again.");
             // });
+
+            let oView = this.getView();
+            let oSurveyModel = new JSONModel();
+
+            oSurveyModel.loadData("../model/surveyData.json")
+            .then(() => {
+                console.log("Survey Data Loaded:", oSurveyModel.getData());
+                oView.setModel(oSurveyModel, "surveyData");
+
+                let oSurveyData = oSurveyModel.getData();
+                let oResponseModel = oView.getModel("responseData");
+
+                let aResponseAnswers = [];
+                oSurveyData.surveySections.forEach(section => {
+                    section.sectionQuestions.forEach(question => {
+                        aResponseAnswers.push({
+                            question: question.questionExternalCode,
+                            answerText: 1 // Default value
+                        });
+                    });
+                });
+
+                oResponseModel.setProperty("/responseAnswers", aResponseAnswers);
+                console.log("Initialized Response Model:", oResponseModel.getData());
+            })
+            .catch(error => {
+                console.error("Error loading survey data:", error);
+                sap.m.MessageToast.show("Could not load survey data.");
+            });
 
         },
 
@@ -88,7 +115,6 @@ sap.ui.define([
                     let oLabel = new Label({ text: question.questionText });
                     let oRadioButtonGroup = new RadioButtonGroup({ columns: 1 });
 
-                    // Get answer options based on question type, default to an empty array if type is unknown
                     let aOptions = oAnswerOptions[question.questionType.toLowerCase()] || [];
 
                     aOptions.forEach(option => {
@@ -109,13 +135,15 @@ sap.ui.define([
             let oView = this.getView();
             let oSurveyModel = oView.getModel("surveyData");
             let oSurveyData = oSurveyModel.getData();
-            let oWizard = oView.byId("surveyWizard");         
+            let oWizard = oView.byId("surveyWizard");    
+            
+            let surveyId = window.decodeURIComponent(oEvent.getParameter("arguments").surveyId);
         
             let oResponseData = {
                 responseHeader: {
-                    responseUser: "Mark Antony",  // Hardcoded for now; update dynamically if needed
+                    responseUser: "EU_PRIYULM", 
                     responseDate: new Date().toISOString(),
-                    responseSurvey: oSurveyData.surveyHeader.surveyName
+                    responseSurvey: surveyId
                 },
                 responseAnswers: []
             };
@@ -135,14 +163,14 @@ sap.ui.define([
                     if (item instanceof sap.m.RadioButtonGroup) {
                         let selectedIndex = item.getSelectedIndex();
                         if (selectedIndex !== -1) {
-                            let sectionIndex = stepIndex; // Maps step index to section index
-                            let questionIndex = Math.floor(aItems.indexOf(item) / 2); // Assumes question order
+                            let sectionIndex = stepIndex; 
+                            let questionIndex = Math.floor(aItems.indexOf(item) / 2); 
         
                             let questionData = oSurveyData.surveySections[sectionIndex].sectionQuestions[questionIndex];
         
                             if (questionData) {
                                 let questionType = questionData.questionType.toLowerCase();
-                                let numericValue = selectedIndex + 1; // Convert to 1-based index
+                                let numericValue = selectedIndex + 1; 
         
                                 oResponseData.responseAnswers.push({
                                     question: questionData.questionExternalCode,
@@ -177,6 +205,34 @@ sap.ui.define([
                     sap.m.MessageToast.show("Failed to submit survey. Please try again.");
                 }
             });
+        },
+
+        onRadioSelect: function(oEvent) {
+            let oSelectedButton = oEvent.getSource();
+            let iValue = oSelectedButton.getCustomData()[0].getValue(); // Get the custom data value
+            let sQuestionExternalCode = oSelectedButton.getCustomData()[1].getValue();
+            console.log("Selected value:", iValue, " selected question: ", sQuestionExternalCode);
+
+            // Get the response model
+            let oResponseModel = this.getView().getModel("responseData");
+
+            if (!oResponseModel) {
+                console.error("Response model not found!");
+                return;
+            }
+
+            let oResponseData = oResponseModel.getData();
+
+            let existingEntry = oResponseData.responseAnswers.find(entry => entry.question === sQuestionExternalCode);
+    
+            if (existingEntry) {
+                existingEntry.answerText = iValue; // Update existing entry
+            } else {
+                oResponseData.responseAnswers.push({ question: sQuestionExternalCode, answerText: iValue }); // Add new entry
+            }
+
+            oResponseModel.updateBindings(true);
+            console.log("Updated response model:", oResponseData);
         },
         
 

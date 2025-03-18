@@ -21,7 +21,6 @@ sap.ui.define([
         sectionQuestionCount: {},  
 
         onInit: function () {
-            // Initialize JSON Model
             let oSurveyModel = new JSONModel({
                 surveyHeader: {
                     surveyName: "",
@@ -39,7 +38,6 @@ sap.ui.define([
             let sValue = oEvent.getParameter("value").trim();  
             let oAddSectionButton = this.getView().byId("addSectionButton");
 
-            // Enable the button only if the name is not empty
             oAddSectionButton.setEnabled(sValue.length > 0);
         },
 
@@ -48,7 +46,6 @@ sap.ui.define([
             let oWizard = this.getView().byId("surveyDraftWizard");
             let sectionCount = oWizard.getSteps().length;
         
-            // Make the wizard visible on the first section addition
             if (!oWizard.getVisible()) {
                 oWizard.setVisible(true);
             }
@@ -86,7 +83,6 @@ sap.ui.define([
         onAddQuestion: function(sectionId, oQuestionContainer, oEvent) {
             let questionCount = this.sectionQuestionCount[sectionId] || 1;
 
-            // Check if the toolbar already exists in the question container
             let aItems = oQuestionContainer.getItems();
             let bToolbarExists = aItems.some(item => item instanceof sap.m.Toolbar);
 
@@ -103,7 +99,6 @@ sap.ui.define([
                 oQuestionContainer.addItem(oToolbar);
             }
 
-            // Create subheading for each question (e.g., "Question 1")
             let questionLabel = new Label({ text: "Question " + questionCount }).addStyleClass("questionSubHeading, sapUiSmallMarginTop");
 
             let oNewQuestion = new VBox({
@@ -128,7 +123,6 @@ sap.ui.define([
 
             oQuestionContainer.addItem(oNewQuestion);
             this.sectionQuestionCount[sectionId]++;
-            // questionCount++; // Increment the question count for the next question
         },
 
 
@@ -210,7 +204,6 @@ sap.ui.define([
                 }
             });
 
-            // Update JSON model
             oSurveyModel.setData(oSurveyData);
             console.log("Survey Data:", oSurveyData);
             this.submitSurveyData(oSurveyData);
