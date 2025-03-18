@@ -10,6 +10,13 @@
       "target": "$1",
       "authenticationType": "xsuaa",
       "localDir": "uimodule/webapp"
+    },
+    {
+      "source": "^/api/(.*)$",
+      "target": "$1",
+      "destination": "surveytool-srv",
+      "authenticationType": "xsuaa",
+      "csrfProtection": false
     }
   ]
 }

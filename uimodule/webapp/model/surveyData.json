@@ -12,11 +12,13 @@
           "sectionQuestions": [
               {
                   "questionText": "How satisfied were you with the payroll training material provided?",
-                  "questionType": "Satisfaction"
+                  "questionType": "Frequency",
+                  "questionExternalCode": "question1"
               },
               {
                   "questionText": "How satisfied were you with the way Irene presented the training sessions?",
-                  "questionType": "Satisfaction"
+                  "questionType": "Satisfaction",
+                  "questionExternalCode": "question2"
               }
           ]
       },
@@ -26,11 +28,13 @@
           "sectionQuestions": [
               {
                   "questionText": "How satisfied were you with the ABAP training material provided?",
-                  "questionType": "Satisfaction"
+                  "questionType": "Agreement",
+                "questionExternalCode": "question3"
               },
               {
                   "questionText": "How satisfied were you with the way Tristan presented the training sessions?",
-                  "questionType": "Satisfaction"
+                  "questionType": "Satisfaction",
+                "questionExternalCode": "question4"
               }
           ]
       }

@@ -118,7 +118,9 @@ sap.ui.define([
                         items: [
                             new sap.ui.core.Item({ key: "satisfaction", text: "Satisfaction" }),
                             new sap.ui.core.Item({ key: "agreement", text: "Agreement" }),
-                            new sap.ui.core.Item({ key: "frequency", text: "Frequency" })
+                            new sap.ui.core.Item({ key: "frequency", text: "Frequency" }),
+                            new sap.ui.core.Item({ key: "quality", text: "Quality" })
+
                         ]
                     }).addStyleClass("inputField"),
                 ]

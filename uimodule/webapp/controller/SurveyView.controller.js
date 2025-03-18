@@ -21,45 +21,43 @@ sap.ui.define([
         onObjectMatched(oEvent) {
 			let surveyId = window.decodeURIComponent(oEvent.getParameter("arguments").surveyId);
             console.log("Survey ID:", surveyId);
-            this.loadSurveyData();
+            this.loadSurveyData(surveyId);
 		},
 
-        loadSurveyData() {
-            // let oView = this.getView();
-            // let oSurveyModel = new JSONModel();
-
-            // fetch(`/api/getSurvey/${surveyId}`)
-            // .then(response => {
-            //     if (!response.ok) {
-            //         throw new Error("Failed to fetch survey data.");
-            //     }
-            //     return response.json();
-            // })
-            // .then(data => {
-            //     console.log("Survey Data:", data);
-            //     oSurveyModel.setData(data);
-            //     oView.setModel(oSurveyModel, "surveyData");  // Bind data to model
-            // })
-            // .catch(error => {
-            //     console.error("Error fetching survey data:", error);
-            //     sap.m.MessageToast.show("Could not load survey data.");
-            // });
-
+        loadSurveyData: function (surveyId) {
             let oView = this.getView();
             let oSurveyModel = new JSONModel();
 
-            oSurveyModel.loadData("../model/surveyData.json")
+            let sUrl = "/api/getSurvey?code=" + encodeURIComponent(surveyId);
+
+            oSurveyModel.loadData(sUrl)
             .then(() => {
                 console.log("Survey Data Loaded:", oSurveyModel.getData());
                 oView.setModel(oSurveyModel, "surveyData");
 
-                // Once loaded, dynamically generate wizard steps
+                // Dynamically generate wizard steps
                 this.generateSurveyWizardSteps();
             })
             .catch(error => {
                 console.error("Error loading survey data:", error);
-                sap.m.MessageToast.show("Could not load survey data.");
+                sap.m.MessageToast.show("Failed to load survey. Please try again.");
             });
+
+            // let oView = this.getView();
+            // let oSurveyModel = new JSONModel();
+
+            // oSurveyModel.loadData("../model/surveyData.json")
+            // .then(() => {
+            //     console.log("Survey Data Loaded:", oSurveyModel.getData());
+            //     oView.setModel(oSurveyModel, "surveyData");
+
+            //     // Once loaded, dynamically generate wizard steps
+            //     this.generateSurveyWizardSteps();
+            // })
+            // .catch(error => {
+            //     console.error("Error loading survey data:", error);
+            //     sap.m.MessageToast.show("Could not load survey data.");
+            // });
 
         },
 
@@ -70,6 +68,14 @@ sap.ui.define([
 
             // Clear existing steps
             oWizard.removeAllSteps();
+
+            let oAnswerOptions = {
+                "satisfaction": ["Very Dissatisfied", "Dissatisfied", "Neutral", "Satisfied", "Very Satisfied"],
+                "frequency": ["Never", "Rarely", "Sometimes", "Often", "Always"],
+                "agreement": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"],
+                "quality": ["Very Poor", "Poor", "Average", "Good", "Excellent"]
+            };
+        
 
             oSurveyData.surveySections.forEach((section, index) => {
                 let oStep = new WizardStep({
@@ -82,8 +88,11 @@ sap.ui.define([
                     let oLabel = new Label({ text: question.questionText });
                     let oRadioButtonGroup = new RadioButtonGroup({ columns: 1 });
 
-                    ["Very Dissatisfied", "Dissatisfied", "Neutral", "Satisfied", "Very Satisfied"].forEach(option => {
-                        oRadioButtonGroup.addButton(new RadioButton({ text: option }));
+                    // Get answer options based on question type, default to an empty array if type is unknown
+                    let aOptions = oAnswerOptions[question.questionType.toLowerCase()] || [];
+
+                    aOptions.forEach(option => {
+                        oRadioButtonGroup.addButton(new sap.m.RadioButton({ text: option }));
                     });
 
                     oVBox.addItem(oLabel);
@@ -93,22 +102,83 @@ sap.ui.define([
                 oStep.addContent(oVBox);
                 oWizard.addStep(oStep);
             });
+        },
 
-            let oSubmitStep = new WizardStep({ title: "Submit Survey" });
-            let oSubmitVBox = new VBox({
-                items: [
-                    new Label({ text: "Review your responses and click submit." }),
-                    new Button({ text: "Submit", type: "Emphasized", press: this.onSubmit.bind(this) })
-                ]
+        
+        onReview: function () {
+            let oView = this.getView();
+            let oSurveyModel = oView.getModel("surveyData");
+            let oSurveyData = oSurveyModel.getData();
+            let oWizard = oView.byId("surveyWizard");         
+        
+            let oResponseData = {
+                responseHeader: {
+                    responseUser: "Mark Antony",  // Hardcoded for now; update dynamically if needed
+                    responseDate: new Date().toISOString(),
+                    responseSurvey: oSurveyData.surveyHeader.surveyName
+                },
+                responseAnswers: []
+            };
+        
+            let aSteps = oWizard.getSteps();
+        
+            aSteps.forEach((step, stepIndex) => {
+                let oVBox = step.getContent()[0];
+        
+                if (!oVBox || !(oVBox instanceof sap.m.VBox)) {
+                    console.warn("Unexpected step content. Skipping this step.");
+                    return;
+                }
+        
+                let aItems = oVBox.getItems();
+                aItems.forEach(item => {
+                    if (item instanceof sap.m.RadioButtonGroup) {
+                        let selectedIndex = item.getSelectedIndex();
+                        if (selectedIndex !== -1) {
+                            let sectionIndex = stepIndex; // Maps step index to section index
+                            let questionIndex = Math.floor(aItems.indexOf(item) / 2); // Assumes question order
+        
+                            let questionData = oSurveyData.surveySections[sectionIndex].sectionQuestions[questionIndex];
+        
+                            if (questionData) {
+                                let questionType = questionData.questionType.toLowerCase();
+                                let numericValue = selectedIndex + 1; // Convert to 1-based index
+        
+                                oResponseData.responseAnswers.push({
+                                    question: questionData.questionExternalCode,
+                                    answerText: numericValue
+                                });
+                            }
+                        }
+                    }
+                });
             });
+        
+            console.log("Survey Response Data:", oResponseData);
+        
+            this.submitSurveyResponse(oResponseData);
+        },        
 
-            oSubmitStep.addContent(oSubmitVBox);
-            oWizard.addStep(oSubmitStep);
-        },
 
-        onSubmit: function () {
-            sap.m.MessageToast.show("Survey Submitted!");
+        submitSurveyResponse: function (oResponseData) {
+            let sUrl = "/api/submitResponse";
+            // console.log(oResponseData);
+            $.ajax({
+                url: sUrl,
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(oResponseData),
+                success: function (data) {
+                    sap.m.MessageToast.show("Survey submitted successfully!");
+                    console.log("Submission Success:", data);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Submission Error:", error);
+                    sap.m.MessageToast.show("Failed to submit survey. Please try again.");
+                }
+            });
         },
+        
 
         onNavBack() {
 			const oHistory = History.getInstance();
