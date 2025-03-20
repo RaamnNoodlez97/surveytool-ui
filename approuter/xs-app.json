@@ -8,6 +8,7 @@
     {
       "source": "^/uimodule/(.*)$",
       "target": "$1",
+      "authenticationType": "none",
       "localDir": "uimodule/webapp"
     }
   ]

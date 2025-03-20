@@ -2,7 +2,6 @@ sap.ui.define([], function () {
     "use strict";
     return {
 		firstScale(sectionLikertScale) {
-			console.log("kaka: ", sectionLikertScale);
 			switch (sectionLikertScale) {
 				case "Satisfaction":
 					return "Very Dissatisfied";

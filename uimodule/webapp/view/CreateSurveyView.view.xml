@@ -14,7 +14,7 @@
         </VBox>
 
         <Wizard id="surveyDraftWizard" visible="false" complete="onReview">
-            <!-- Sections will be dynamically added here -->
+
         </Wizard>
     </Page>
 </mvc:View>

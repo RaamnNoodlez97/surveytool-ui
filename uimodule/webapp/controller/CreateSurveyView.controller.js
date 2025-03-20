@@ -68,7 +68,19 @@ sap.ui.define([
                         new Input({ id: sectionId + "_name", placeholder: "Enter section name" }).addStyleClass("inputField"),
         
                         new Label({ text: "Section Description:" }).addStyleClass("inputLabel"),
-                        new Input({ id: sectionId + "_desc", placeholder: "Enter section description" }).addStyleClass("inputField sapUiMediumMarginBottom"),
+                        new Input({ id: sectionId + "_desc", placeholder: "Enter section description" }).addStyleClass("inputField"),
+
+                        new Label({ text: "Section Likert Scale Type:" }).addStyleClass("inputLabel"),
+                        new ComboBox({
+                            id: sectionId + "_type",
+                            items: [
+                                new sap.ui.core.Item({ key: "satisfaction", text: "Satisfaction" }),
+                                new sap.ui.core.Item({ key: "agreement", text: "Agreement" }),
+                                new sap.ui.core.Item({ key: "frequency", text: "Frequency" }),
+                                new sap.ui.core.Item({ key: "quality", text: "Quality" })
+    
+                            ]
+                        }).addStyleClass("inputField sapUiMediumMarginBottom"),
         
                         oQuestionContainer, // Question container
                         oAddQuestionButton
@@ -106,18 +118,6 @@ sap.ui.define([
                     questionLabel, // Question label
                     new Label({ text: "Question Text:" }).addStyleClass("inputLabel"),
                     new Input({ id: sectionId + "_q" + questionCount, placeholder: "Enter question" }).addStyleClass("inputField"),
-
-                    new Label({ text: "Select Likert Scale:" }).addStyleClass("inputLabel"),
-                    new ComboBox({
-                        id: sectionId + "_q" + questionCount + "_scale",
-                        items: [
-                            new sap.ui.core.Item({ key: "satisfaction", text: "Satisfaction" }),
-                            new sap.ui.core.Item({ key: "agreement", text: "Agreement" }),
-                            new sap.ui.core.Item({ key: "frequency", text: "Frequency" }),
-                            new sap.ui.core.Item({ key: "quality", text: "Quality" })
-
-                        ]
-                    }).addStyleClass("inputField"),
                 ]
             });
 
@@ -157,6 +157,7 @@ sap.ui.define([
                 
                 let sectionName = "";
                 let sectionDescription = "";
+                let sectionLikertScaleType = "";
                 let sectionQuestions = [];
 
                 aItems.forEach(item => {
@@ -168,6 +169,8 @@ sap.ui.define([
                     } else if (item instanceof Input && item.getId().includes("_desc")) {
                         sectionDescription = item.getValue();
                         console.log("Section Description Found:", sectionDescription);
+                    } else if (item instanceof ComboBox) {
+                        sectionLikertScaleType = item.getSelectedItem()?.getText() || "";
                     } else if (item instanceof VBox) {
                         console.log("Found Question Container:", item);
                         // Loop through questions
@@ -175,29 +178,26 @@ sap.ui.define([
                         aQuestionItems.forEach(qItem => {
                             if (qItem instanceof VBox) {
                                 let questionText = "";
-                                let questionType = "";
                                 qItem.getItems().forEach(qSubItem => {
                                     if (qSubItem instanceof Input) {
                                         questionText = qSubItem.getValue();
                                     }
-                                    if (qSubItem instanceof ComboBox) {
-                                        questionType = qSubItem.getSelectedItem()?.getText() || "";
-                                    }
                                 });
 
-                                if (questionText && questionType) {
-                                    sectionQuestions.push({ questionText, questionType });
-                                    console.log("Added Question:", { questionText, questionType });
+                                if (questionText) {
+                                    sectionQuestions.push({ questionText });
+                                    console.log("Added Question:", { questionText });
                                 }
                             }
                         });
                     }
                 });
 
-                if (sectionName && sectionDescription) {
+                if (sectionName && sectionDescription && sectionLikertScaleType) {
                     oSurveyData.surveySections.push({
                         sectionName,
                         sectionDescription,
+                        sectionLikertScaleType,
                         sectionQuestions
                     });
                     console.log("Added Section:", { sectionName, sectionDescription, sectionQuestions });
