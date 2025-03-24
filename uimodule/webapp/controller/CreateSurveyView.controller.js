@@ -1,19 +1,9 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/json/JSONModel",
-    "sap/m/WizardStep",
-    "sap/m/VBox",
-    "sap/m/Label",
-    "sap/m/Input",
-    "sap/m/Button",
-    "sap/m/Select",
-    "sap/m/ComboBox",
-    "sap/m/RadioButton",
-    "sap/m/RadioButtonGroup",
-    "sap/m/Toolbar",
-    "sap/m/Title",
     "sap/ui/core/routing/History",
-], function(Controller, JSONModel, WizardStep, VBox, Label, Input, Button, Select, ComboBox, RadioButton, RadioButtonGroup, Toolbar, Title, History) {
+    "sap/m/MessageToast"
+], function(Controller, JSONModel, History, MessageToast) {
     "use strict";
 
     return Controller.extend("mta.MTA1.controller.CreateSurveyView", {
@@ -41,23 +31,19 @@ sap.ui.define([
             oAddSectionButton.setEnabled(sValue.length > 0);
         },
 
-        formatSectionTitle: function(oContext) {
-            var aItems = this.getView().getModel("surveyData").getProperty("/surveySections");
-            var iIndex = aItems.indexOf(oContext);
-            
-            return "Section " + (iIndex + 1);
-        },
-
-
         onAddSection: function() {
-            let oWizard = this.getView().byId("surveyDraftWizard");
-            
-            if (!oWizard.getVisible()) {
-                oWizard.setVisible(true);
-            }
-
             let oSurveyModel = this.getView().getModel("surveyData");
             let aSections = oSurveyModel.getProperty("/surveySections");
+
+            let oList = this.getView().byId("surveySectionsList");
+            if (!oList.getVisible()) {
+                oList.setVisible(true);
+            }
+
+            let oSubmitButton = this.getView().byId("submitSurveyButton");
+            if (!oSubmitButton.getVisible()) {
+                oSubmitButton.setVisible(true);
+            }
 
             aSections.push({
                 sectionName: "",
@@ -85,6 +71,7 @@ sap.ui.define([
         onAddQuestion: function(oEvent) {
             let oSurveyModel = this.getView().getModel("surveyData");
             let oSection = oEvent.getSource().getBindingContext("surveyData").getObject();
+            
             oSection.sectionQuestions.push({ questionText: "" });
             oSurveyModel.refresh();
         },

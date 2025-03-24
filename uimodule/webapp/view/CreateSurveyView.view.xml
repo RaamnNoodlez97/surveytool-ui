@@ -15,42 +15,49 @@
 		    <Button id="addSectionButton" text="Add Section" press=".onAddSection" type="Emphasized" enabled="false" class="inputField"/>
         </VBox>
 
-        <Wizard id="surveyDraftWizard" complete="onReview" steps="{surveyData>/surveySections}" visible="false">
-             <WizardStep title="{path: 'surveyData>', formatter: '.formatSectionTitle'}" validated="true">
-                <VBox>
-                    <Label text="Section Name:" class="inputLabel"/>
-                    <Input value="{surveyData>sectionName}" placeholder="Enter section name" class="inputField"/>
+        <List id="surveySectionsList" items="{surveyData>/surveySections}" visible="false">
+            <CustomListItem>
+                <Panel expandable="true" expanded="true" headerText="{surveyData>sectionName}">
+                    <VBox>
+                        <Label text="Section Name:" class="inputLabel"/>
+                        <Input value="{surveyData>sectionName}" placeholder="Enter section name" class="inputField"/>
 
-                    <Label text="Section Description:" class="inputLabel"/>
-                    <Input value="{surveyData>sectionDescription}" placeholder="Enter section description" class="inputField"/>
+                        <Label text="Section Description:" class="inputLabel"/>
+                        <Input value="{surveyData>sectionDescription}" placeholder="Enter section description" class="inputField"/>
 
-                    <Label text="Likert Scale Type:" class="inputLabel"/>
-                    <ComboBox selectedKey="{surveyData>sectionLikertScaleType}" class="inputField">
-                        <core:Item key="satisfaction" text="Satisfaction"/>
-                        <core:Item key="agreement" text="Agreement"/>
-                        <core:Item key="frequency" text="Frequency"/>
-                        <core:Item key="quality" text="Quality"/>
-                    </ComboBox>
+                        <Label text="Likert Scale Type:" class="inputLabel"/>
+                        <ComboBox selectedKey="{surveyData>sectionLikertScaleType}" class="inputField">
+                            <core:Item key="satisfaction" text="Satisfaction"/>
+                            <core:Item key="agreement" text="Agreement"/>
+                            <core:Item key="frequency" text="Frequency"/>
+                            <core:Item key="quality" text="Quality"/>
+                        </ComboBox>
 
-                    <Toolbar>
-                        <Title text="Questions"/>
-                        <ToolbarSpacer/>
-                        <Button text="Add Question" press=".onAddQuestion"/>
-                    </Toolbar>
+                        <Toolbar class="toolbarMargin">
+                            <Title text="Questions"/>
+                            <ToolbarSpacer/>
+                            <Button text="Add Question" press=".onAddQuestion" class="inputField"/>
+                        </Toolbar>
 
-                    <List items="{surveyData>sectionQuestions}">
-                        <CustomListItem>
-                            <VBox>
-                                <Label text="Question:" class="inputLabel"/>
-                                <Input value="{surveyData>questionText}" placeholder="Enter question" class="inputField"/>
-                                <Button text="Remove Question" press=".onRemoveQuestion" type="Transparent"/>
-                            </VBox>
-                        </CustomListItem>
-                    </List>
+                        <List items="{surveyData>sectionQuestions}">
+                            <CustomListItem>
+                                <VBox>
+                                    <Label text="Question:" class="inputLabel"/>
+                                    <Input value="{surveyData>questionText}" placeholder="Enter question" class="inputField"/>
+                                    <Button text="Remove Question" press=".onRemoveQuestion" type="Transparent" class="inputField"/>
+                                </VBox>
+                            </CustomListItem>
+                        </List>
 
-                    <Button text="Remove Section" press=".onRemoveSection" type="Negative"/>
-                </VBox>
-             </WizardStep>
-        </Wizard>
+                        <Button text="Remove Section" press=".onRemoveSection" type="Negative" class="inputField"/>
+                    </VBox>
+                </Panel>
+            </CustomListItem>
+        </List>
+
+        <VBox alignItems="Center" justifyContent="Center" class="submitButtonContainer">
+            <Button id="submitSurveyButton" text="Submit Survey" type="Accept" press=".onReview" class="inputField" visible="false"/>
+        </VBox>
+
     </Page>
 </mvc:View>
