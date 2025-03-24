@@ -41,174 +41,75 @@ sap.ui.define([
             oAddSectionButton.setEnabled(sValue.length > 0);
         },
 
+        formatSectionTitle: function(oContext) {
+            var aItems = this.getView().getModel("surveyData").getProperty("/surveySections");
+            var iIndex = aItems.indexOf(oContext);
+            
+            return "Section " + (iIndex + 1);
+        },
+
 
         onAddSection: function() {
             let oWizard = this.getView().byId("surveyDraftWizard");
-            let sectionCount = oWizard.getSteps().length;
-        
+            
             if (!oWizard.getVisible()) {
                 oWizard.setVisible(true);
             }
 
-            let sectionId = "section_" + sectionCount;
-            this.sectionQuestionCount[sectionId] = 1;  // Initialize question count for this section
-        
-            let oQuestionContainer = new VBox({ id: "questionContainer_" + sectionCount }).addStyleClass("questionContainer");
-        
-            let oAddQuestionButton = new Button({
-                text: "Add Question",
-                press: this.onAddQuestion.bind(this, sectionId, oQuestionContainer)// Pass questionCount to the handler
-            }).addStyleClass("inputField");
-        
-            let oNewStep = new WizardStep({
-                title: "Section " + (sectionCount + 1),
-                content: new VBox({
-                    items: [
-                        new Label({ text: "Section Name:" }).addStyleClass("inputLabel"),
-                        new Input({ id: sectionId + "_name", placeholder: "Enter section name" }).addStyleClass("inputField"),
-        
-                        new Label({ text: "Section Description:" }).addStyleClass("inputLabel"),
-                        new Input({ id: sectionId + "_desc", placeholder: "Enter section description" }).addStyleClass("inputField"),
+            let oSurveyModel = this.getView().getModel("surveyData");
+            let aSections = oSurveyModel.getProperty("/surveySections");
 
-                        new Label({ text: "Section Likert Scale Type:" }).addStyleClass("inputLabel"),
-                        new ComboBox({
-                            id: sectionId + "_type",
-                            items: [
-                                new sap.ui.core.Item({ key: "satisfaction", text: "Satisfaction" }),
-                                new sap.ui.core.Item({ key: "agreement", text: "Agreement" }),
-                                new sap.ui.core.Item({ key: "frequency", text: "Frequency" }),
-                                new sap.ui.core.Item({ key: "quality", text: "Quality" })
-    
-                            ]
-                        }).addStyleClass("inputField sapUiMediumMarginBottom"),
-        
-                        oQuestionContainer, // Question container
-                        oAddQuestionButton
-                    ]
-                })
+            aSections.push({
+                sectionName: "",
+                sectionDescription: "",
+                sectionLikertScaleType: "",
+                sectionQuestions: []
             });
-        
-            oWizard.addStep(oNewStep);
+
+            oSurveyModel.refresh();
         },
-        
 
-        onAddQuestion: function(sectionId, oQuestionContainer, oEvent) {
-            let questionCount = this.sectionQuestionCount[sectionId] || 1;
 
-            let aItems = oQuestionContainer.getItems();
-            let bToolbarExists = aItems.some(item => item instanceof sap.m.Toolbar);
+        onRemoveSection: function(oEvent) {
+            let oSurveyModel = this.getView().getModel("surveyData");
+            let aSections = oSurveyModel.getProperty("/surveySections");
+            let oSection = oEvent.getSource().getBindingContext("surveyData").getObject();
+            let iIndex = aSections.indexOf(oSection);
 
-            // If toolbar does not exist, create and add it
-            if (!bToolbarExists) {
-                let oToolbar = new sap.m.Toolbar({
-                    content: [
-                        new sap.m.Title({
-                            text: "Questions"
-                        }).addStyleClass("sectionHeadingTitle")
-                    ]
-                });
-
-                oQuestionContainer.addItem(oToolbar);
+            if (iIndex !== -1) {
+                aSections.splice(iIndex, 1);
+                oSurveyModel.refresh();
             }
-
-            let questionLabel = new Label({ text: "Question " + questionCount }).addStyleClass("questionSubHeading, sapUiSmallMarginTop");
-
-            let oNewQuestion = new VBox({
-                items: [
-                    questionLabel, // Question label
-                    new Label({ text: "Question Text:" }).addStyleClass("inputLabel"),
-                    new Input({ id: sectionId + "_q" + questionCount, placeholder: "Enter question" }).addStyleClass("inputField"),
-                ]
-            });
-
-            oQuestionContainer.addItem(oNewQuestion);
-            this.sectionQuestionCount[sectionId]++;
         },
 
+        onAddQuestion: function(oEvent) {
+            let oSurveyModel = this.getView().getModel("surveyData");
+            let oSection = oEvent.getSource().getBindingContext("surveyData").getObject();
+            oSection.sectionQuestions.push({ questionText: "" });
+            oSurveyModel.refresh();
+        },
 
-        onReview: function () {
-            let oView = this.getView();
-            let oWizard = oView.byId("surveyDraftWizard");
-            let oSurveyModel = oView.getModel("surveyData");
-            let oSurveyData = {
-                surveyHeader: {
-                    surveyName: oView.byId("surveyNameInput").getValue(),
-                    surveyDescription: oView.byId("surveyDescriptionInput").getValue(),
-                    surveyStatus: "Draft"
-                },
-                surveySections: []
-            };
+        onRemoveQuestion: function(oEvent) {
+            let oSurveyModel = this.getView().getModel("surveyData");
+            let oQuestion = oEvent.getSource().getBindingContext("surveyData").getObject();
+            let oSection = oSurveyModel.getProperty("/surveySections").find(sec => sec.sectionQuestions.includes(oQuestion));
 
-            let aSteps = oWizard.getSteps();
-            console.log("Wizard Steps Found:", aSteps.length);
-
-            aSteps.forEach(step => {
-                console.log("Processing Step:", step.getTitle());
-                let oVBox = step.getContent()[0];
-                console.log("Step Content:", oVBox);
-
-                if (!oVBox || !(oVBox instanceof sap.m.VBox)) {
-                    console.warn("Unexpected content structure. Skipping this step.");
-                    return;
+            if (oSection) {
+                let iIndex = oSection.sectionQuestions.indexOf(oQuestion);
+                if (iIndex !== -1) {
+                    oSection.sectionQuestions.splice(iIndex, 1);
+                    oSurveyModel.refresh();
                 }
+            }
+        },
 
-                let aItems = oVBox.getItems();
-                console.log("VBox Items:", aItems);
-                
-                let sectionName = "";
-                let sectionDescription = "";
-                let sectionLikertScaleType = "";
-                let sectionQuestions = [];
+        onReview: function() {
+            let oSurveyModel = this.getView().getModel("surveyData");
+            let oSurveyData = oSurveyModel.getData();
 
-                aItems.forEach(item => {
-                    console.log("Checking Item:", item);
-
-                    if (item instanceof Input && item.getId().includes("_name")) {
-                        sectionName = item.getValue();
-                        console.log("Section Name Found:", sectionName);
-                    } else if (item instanceof Input && item.getId().includes("_desc")) {
-                        sectionDescription = item.getValue();
-                        console.log("Section Description Found:", sectionDescription);
-                    } else if (item instanceof ComboBox) {
-                        sectionLikertScaleType = item.getSelectedItem()?.getText() || "";
-                    } else if (item instanceof VBox) {
-                        console.log("Found Question Container:", item);
-                        // Loop through questions
-                        let aQuestionItems = item.getItems();
-                        aQuestionItems.forEach(qItem => {
-                            if (qItem instanceof VBox) {
-                                let questionText = "";
-                                qItem.getItems().forEach(qSubItem => {
-                                    if (qSubItem instanceof Input) {
-                                        questionText = qSubItem.getValue();
-                                    }
-                                });
-
-                                if (questionText) {
-                                    sectionQuestions.push({ questionText });
-                                    console.log("Added Question:", { questionText });
-                                }
-                            }
-                        });
-                    }
-                });
-
-                if (sectionName && sectionDescription && sectionLikertScaleType) {
-                    oSurveyData.surveySections.push({
-                        sectionName,
-                        sectionDescription,
-                        sectionLikertScaleType,
-                        sectionQuestions
-                    });
-                    console.log("Added Section:", { sectionName, sectionDescription, sectionQuestions });
-                }
-            });
-
-            oSurveyModel.setData(oSurveyData);
             console.log("Survey Data:", oSurveyData);
             this.submitSurveyData(oSurveyData);
         },
-
         
         submitSurveyData: function (oSurveyData) {
             fetch("/api/submitSurvey", {
