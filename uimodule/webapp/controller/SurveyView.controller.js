@@ -9,8 +9,9 @@ sap.ui.define([
     "sap/m/Button",
     "sap/m/Text",
     "sap/ui/core/routing/History",
+    "sap/m/MessageToast",
     "mta/MTA1/model/formatter"
-], function (Controller, JSONModel, WizardStep, VBox, Label, RadioButtonGroup, RadioButton, Button, Text, History, formatter) {
+], function (Controller, JSONModel, WizardStep, VBox, Label, RadioButtonGroup, RadioButton, Button, Text, History, MessageToast, formatter) {
     "use strict";
 
     return Controller.extend("mta.MTA1.controller.SurveyView", {
@@ -19,6 +20,23 @@ sap.ui.define([
         onInit: function () {
             const oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("survey").attachPatternMatched(this.onObjectMatched, this);
+        },
+
+        getCurrentUser: function() {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: "/user-api/currentUser",
+                    method: "GET",
+                    success: function(data) {
+                        // Typically, the user ID is in data.id or data.userName
+                        resolve(data.name);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error fetching current user:", error);
+                        reject(error);
+                    }
+                });
+            });
         },
 
         onObjectMatched(oEvent) {
@@ -61,28 +79,16 @@ sap.ui.define([
         onReview: function () {
             let oView = this.getView();
             let oSurveyModel = oView.getModel("surveyData");
-            let oSurveyData = oSurveyModel.getData();   
+            let oSurveyData = oSurveyModel.getData(); 
             
-            try {
-                if (sap.ushell && sap.ushell.Container) {
-                    oSurveyData.surveyHeader.responseUser = 
-                        sap.ushell.Container.getUser().getId() || 
-                        sap.ushell.Container.getService("UserInfo").getId();
-                } 
-                else {
-                    oSurveyData.surveyHeader.responseUser = 
-                        localStorage.getItem("userId") || 
-                        "ANONYMOUS_USER";
-                }
-                
-                console.log("Survey Data with Responses:", oSurveyData);
+            this.getCurrentUser().then((userId) => {
+                oSurveyData.surveyHeader.responseUser = userId;
                 oSurveyData.surveyHeader.responseDate = new Date().toISOString();
+                console.log("Survey Data with User:", oSurveyData);
                 this.submitSurveyResponse(oSurveyData);
-                
-            } catch (e) {
-                console.error("User detection failed:", e);
-                MessageToast.show("Could not identify user");
-            }
+            }).catch((error) => {
+                console.error("Could not retrieve user ID:", error);
+            });
         },        
 
 

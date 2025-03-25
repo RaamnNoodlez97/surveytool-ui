@@ -9,8 +9,9 @@
                 value="{surveyData>/surveyHeader/surveyName}"/>
 
             <Label text="Survey Description:" class="inputLabel"/>
-            <Input id="surveyDescriptionInput" placeholder="Enter survey description (optional)" class="inputField"
-                value="{surveyData>/surveyHeader/surveyDescription}"/>
+            <TextArea id="surveyDescriptionInput" placeholder="Enter survey description (optional)" growing="true" growingMaxLines="5" class="inputField" value="{surveyData>/surveyHeader/surveyDescription}"/>
+            <!-- <Input id="surveyDescriptionInput" placeholder="Enter survey description (optional)" class="inputField" 
+                value="{surveyData>/surveyHeader/surveyDescription}"/> -->
 
 		    <Button id="addSectionButton" text="Add Section" press=".onAddSection" type="Emphasized" enabled="false" class="inputField"/>
         </VBox>

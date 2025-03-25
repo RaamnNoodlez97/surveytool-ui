@@ -12,6 +12,11 @@
       "localDir": "uimodule/webapp"
     },
     {
+      "source": "^/user-api/currentUser$",
+      "target": "/currentUser",
+      "service": "sap-approuter-userapi"
+    },
+    {
       "source": "^/api/(.*)$",
       "target": "$1",
       "destination": "surveytool-srv",

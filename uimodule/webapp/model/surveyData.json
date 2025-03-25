@@ -3,7 +3,14 @@
       "surveyName": "Graduate Training Program",
       "surveyDescription": "Improve on the graduate program by receiving valuable insights from graduates",
       "surveyStatus": "Draft",
-      "surveyId": "123"
+      "surveyId": "123",
+      "frequency": "quarterly/once off etc",
+      "target": {
+        "type": "businessUnit",
+        "codes": ["bu1", "bu2"],
+        "unitOfMeasure": "percentage",
+        "quantity": "60"
+      }
   },
   "surveySections": [
       {
