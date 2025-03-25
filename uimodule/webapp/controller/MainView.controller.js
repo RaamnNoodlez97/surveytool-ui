@@ -18,21 +18,10 @@ sap.ui.define(
                     console.error("surveyInfo model is not available!");
                 }
               },
-              // onShowHelloWorld: function() {
-              //   var oRouter = this.getOwnerComponent().getRouter();
-              //   oRouter.navTo("helloworld");
-              // },
-              // onShowSFPrincipalPropagation: function() {
-              //   var oRouter = this.getOwnerComponent().getRouter();
-              //   oRouter.navTo("sf");
-              // },
-              // onShowSFapi: function() {
-              //   var oRouter = this.getOwnerComponent().getRouter();
-              //   oRouter.navTo("sfapi");
-              // }
+              
               onNavigateToContent: function (oEvent) {
                 var oButton = oEvent.getSource();
-                var sContentKey = oButton.getCustomData()[0].getValue(); // Get value from CustomData
+                var sContentKey = oButton.getCustomData()[0].getValue();
     
                 var oRouter = this.getOwnerComponent().getRouter();
                 oRouter.navTo("contentView", { contentType: sContentKey });
@@ -40,10 +29,48 @@ sap.ui.define(
 
             onNavigateToCreateSurvey: function (oEvent) {
                 var oButton = oEvent.getSource();
-                var sContentKey = oButton.getCustomData()[0].getValue(); // Get value from CustomData
+                var sContentKey = oButton.getCustomData()[0].getValue();
     
                 var oRouter = this.getOwnerComponent().getRouter();
                 oRouter.navTo("createSurvey", { contentType: sContentKey });
+            },
+
+            onTest: function(oEvent) {
+                const sInputValue = this.getView().byId("testInput").getValue();
+                
+                try {
+                    const oPayload = typeof sInputValue === 'string' 
+                        ? JSON.parse(sInputValue) 
+                        : sInputValue;
+                    this.submitTestPayload(oPayload);
+                } catch (e) {
+                    MessageToast.show("Invalid JSON format");
+                    console.error("JSON parse error:", e);
+                }
+            },
+
+            submitTestPayload: function(oPayload) {
+                fetch("/api/submitResponse", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(oPayload)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    MessageToast.show("Test successful!");
+                    console.log("API response:", data);
+                })
+                .catch(error => {
+                    MessageToast.show("Test failed");
+                    console.error("API error:", error);
+                });
             }
  
         });

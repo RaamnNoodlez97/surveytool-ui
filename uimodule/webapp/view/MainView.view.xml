@@ -1,20 +1,6 @@
 <mvc:View controllerName="mta.MTA1.controller.MainView" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m" xmlns:core="sap.ui.core">
     <Page id="mainPage" title="Survey app">
         <content>
-            
-            <!-- <Button
-                text="Show Hello World"
-                press=".onShowHelloWorld"
-                />
-            <Button
-                text="Show SF Principal Propagation"
-                press=".onShowSFPrincipalPropagation"
-                />
-            <Button
-                text="Show SF API"
-                press=".onShowSFapi"
-                /> -->
-            
             <VBox>
                 <Button text="Show Hello World" press=".onNavigateToContent">
                     <customData>
@@ -37,6 +23,15 @@
                     </customData>
                 </Button>
             </VBox>
+
+
+            <Label text="Test here:"/>
+            <Input id="testInput"/>
+            <Button text="Test" press=".onTest">
+                <customData>
+                    <core:CustomData key="content" value="Testing"/>
+                </customData>
+            </Button>
 
         </content>
     </Page>

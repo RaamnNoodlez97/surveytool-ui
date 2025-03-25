@@ -58,17 +58,13 @@
           "preload": true
         }
       },
-      "surveyData": {
+      "surveyDataTest": {
         "type": "sap.ui.model.json.JSONModel",
         "settings": {
           "preload": true,
           "json": true
         },
         "uri": "model/surveyData.json"
-      },
-      "surveyInfo": {
-        "type": "sap.ui.model.json.JSONModel",
-        "uri": "/api/getSurvey"
       }
     },
     "resources": {

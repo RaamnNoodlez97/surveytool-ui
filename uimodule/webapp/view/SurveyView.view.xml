@@ -5,11 +5,11 @@
                 <WizardStep title="{surveyData>sectionName}">
                     <HBox class="sapUiSmallMarginBottom">
                         <Text text="" width="600px"></Text>
-                        <Text text="{path: 'surveyData>sectionLikertScale',formatter: '.formatter.firstScale'}" width="100px"/>
-                        <Text text="{path: 'surveyData>sectionLikertScale',formatter: '.formatter.secondScale'}" width="100px"/>
-                        <Text text="{path: 'surveyData>sectionLikertScale',formatter: '.formatter.thirdScale'}" width="100px"/>
-                        <Text text="{path: 'surveyData>sectionLikertScale',formatter: '.formatter.fourthScale'}" width="100px"/>
-                        <Text text="{path: 'surveyData>sectionLikertScale',formatter: '.formatter.fifthScale'}" width="100px"/>
+                        <Text text="{path: 'surveyData>sectionLikertScaleType',formatter: '.formatter.firstScale'}" width="100px"/>
+                        <Text text="{path: 'surveyData>sectionLikertScaleType',formatter: '.formatter.secondScale'}" width="100px"/>
+                        <Text text="{path: 'surveyData>sectionLikertScaleType',formatter: '.formatter.thirdScale'}" width="100px"/>
+                        <Text text="{path: 'surveyData>sectionLikertScaleType',formatter: '.formatter.fourthScale'}" width="100px"/>
+                        <Text text="{path: 'surveyData>sectionLikertScaleType',formatter: '.formatter.fifthScale'}" width="100px"/>
                     </HBox>
                     
                     <VBox items="{

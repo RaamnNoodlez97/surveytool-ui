@@ -63,13 +63,26 @@ sap.ui.define([
             let oSurveyModel = oView.getModel("surveyData");
             let oSurveyData = oSurveyModel.getData();   
             
-            oSurveyData.surveyHeader.responseUser = "EU_PRIYULM"; 
-            oSurveyData.surveyHeader.responseDate = new Date().toISOString();
-        
-            console.log("Survey Data with Responses:", oSurveyData);
-
-            // Send the updated model directly
-            this.submitSurveyResponse(oSurveyData);
+            try {
+                if (sap.ushell && sap.ushell.Container) {
+                    oSurveyData.surveyHeader.responseUser = 
+                        sap.ushell.Container.getUser().getId() || 
+                        sap.ushell.Container.getService("UserInfo").getId();
+                } 
+                else {
+                    oSurveyData.surveyHeader.responseUser = 
+                        localStorage.getItem("userId") || 
+                        "ANONYMOUS_USER";
+                }
+                
+                console.log("Survey Data with Responses:", oSurveyData);
+                oSurveyData.surveyHeader.responseDate = new Date().toISOString();
+                this.submitSurveyResponse(oSurveyData);
+                
+            } catch (e) {
+                console.error("User detection failed:", e);
+                MessageToast.show("Could not identify user");
+            }
         },        
 
 

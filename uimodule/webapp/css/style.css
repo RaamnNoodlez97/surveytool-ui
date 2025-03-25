@@ -28,3 +28,9 @@
 .toolbarMargin {
     margin-top: 2em;
 }
+
+
+/* Remove default TabContainer padding */
+/* .sapMTabContainer {
+    height: 60% !important;
+} */

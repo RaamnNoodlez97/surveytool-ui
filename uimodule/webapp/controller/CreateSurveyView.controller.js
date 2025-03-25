@@ -35,9 +35,11 @@ sap.ui.define([
             let oSurveyModel = this.getView().getModel("surveyData");
             let aSections = oSurveyModel.getProperty("/surveySections");
 
-            let oList = this.getView().byId("surveySectionsList");
-            if (!oList.getVisible()) {
-                oList.setVisible(true);
+            let iSectionCount = aSections.length + 1;
+
+            let oTabContainer = this.getView().byId("surveySectionsTabs");
+            if (!oTabContainer.getVisible()) {
+                oTabContainer.setVisible(true);
             }
 
             let oSubmitButton = this.getView().byId("submitSurveyButton");
@@ -46,7 +48,7 @@ sap.ui.define([
             }
 
             aSections.push({
-                sectionName: "",
+                sectionName: "Section " + iSectionCount,
                 sectionDescription: "",
                 sectionLikertScaleType: "",
                 sectionQuestions: []
@@ -59,13 +61,33 @@ sap.ui.define([
         onRemoveSection: function(oEvent) {
             let oSurveyModel = this.getView().getModel("surveyData");
             let aSections = oSurveyModel.getProperty("/surveySections");
-            let oSection = oEvent.getSource().getBindingContext("surveyData").getObject();
+            let oSection = oEvent.getParameter("item").getBindingContext("surveyData").getObject();;
+            
             let iIndex = aSections.indexOf(oSection);
-
             if (iIndex !== -1) {
                 aSections.splice(iIndex, 1);
+                // Renumber sections that follow the "Section X" pattern
+                this.renumberSections(aSections);
                 oSurveyModel.refresh();
+                
+
+                if (aSections.length === 0) {
+                    this.getView().byId("surveySectionsTabs").setVisible(false);
+                    this.getView().byId("submitSurveyButton").setVisible(false);
+                }
             }
+        },
+
+        renumberSections: function(aSections) {
+            let iSectionNumber = 1;
+            
+            aSections.forEach(function(oSection) {
+                // Only rename sections that match the exact default pattern
+                if (/^Section \d+$/.test(oSection.sectionName)) {
+                    oSection.sectionName = "Section " + iSectionNumber;
+                }
+                iSectionNumber++;
+            });
         },
 
         onAddQuestion: function(oEvent) {
