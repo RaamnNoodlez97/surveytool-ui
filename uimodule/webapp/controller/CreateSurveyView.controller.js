@@ -21,14 +21,12 @@ sap.ui.define([
             });
 
             this.getView().setModel(oSurveyModel, "surveyData");
+            this.onAddSection();
         },
 
 
         onSurveyNameChange: function(oEvent) {
             let sValue = oEvent.getParameter("value").trim();  
-            let oAddSectionButton = this.getView().byId("addSectionButton");
-
-            oAddSectionButton.setEnabled(sValue.length > 0);
         },
 
         onAddSection: function() {
@@ -36,16 +34,6 @@ sap.ui.define([
             let aSections = oSurveyModel.getProperty("/surveySections");
 
             let iSectionCount = aSections.length + 1;
-
-            let oTabContainer = this.getView().byId("surveySectionsTabs");
-            if (!oTabContainer.getVisible()) {
-                oTabContainer.setVisible(true);
-            }
-
-            let oSubmitButton = this.getView().byId("submitSurveyButton");
-            if (!oSubmitButton.getVisible()) {
-                oSubmitButton.setVisible(true);
-            }
 
             aSections.push({
                 sectionName: "Section " + iSectionCount,
@@ -55,6 +43,9 @@ sap.ui.define([
             });
 
             oSurveyModel.refresh();
+            this.getView().getModel("surveyData").refresh(true);
+            this.getView().byId("surveySectionsTabs").invalidate();
+            this.getView().byId("surveySectionsTabs").rerender();
         },
 
 
@@ -90,11 +81,39 @@ sap.ui.define([
             });
         },
 
-        onAddQuestion: function(oEvent) {
-            let oSurveyModel = this.getView().getModel("surveyData");
-            let oSection = oEvent.getSource().getBindingContext("surveyData").getObject();
+        onAddQuestion: function() {
+            const oTabContainer = this.getView().byId("surveySectionsTabs");
+            const oSelectedItem = oTabContainer.getSelectedItem();
             
-            oSection.sectionQuestions.push({ questionText: "" });
+            if (!oSelectedItem) {
+                sap.m.MessageToast.show("Please select a section first");
+                return;
+            }
+        
+            // Get the index of the selected item
+            const aItems = oTabContainer.getItems();
+            console.log("oselectedItem: ", oSelectedItem );
+            console.log("aitems: ", aItems );
+            const iSelectedIndex = aItems.findIndex(item => 
+                item.sId === oSelectedItem
+            );
+            
+            if (iSelectedIndex === -1) {
+                console.error("Selected item not found in items aggregation");
+                return;
+            }
+        
+            const oSurveyModel = this.getView().getModel("surveyData");
+            const aSections = oSurveyModel.getProperty("/surveySections");
+            
+            // Ensure questions array exists
+            if (!aSections[iSelectedIndex].sectionQuestions) {
+                aSections[iSelectedIndex].sectionQuestions = [];
+            }
+            
+            // Add new question
+            aSections[iSelectedIndex].sectionQuestions.push({questionText: ""});
+            
             oSurveyModel.refresh();
         },
 

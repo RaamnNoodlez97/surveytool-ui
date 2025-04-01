@@ -34,3 +34,15 @@
 /* .sapMTabContainer {
     height: 60% !important;
 } */
+
+/* #__xmlview0--surveySectionsTabs-containerContent{
+    height: 500px;
+} */
+
+.sapMTabContainerInnerContent{ 
+    position:relative!important; 
+}
+
+.ne-flexbox1 .margin-vbox{
+    margin: 0.5em;
+}

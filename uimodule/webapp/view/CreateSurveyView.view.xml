@@ -1,7 +1,12 @@
-<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" 
-    xmlns:core="sap.ui.core" controllerName="mta.MTA1.controller.CreateSurveyView">
-    
-    <Page id="surveyDraftPage" title="Create a new Survey" showNavButton="true" navButtonPress=".onNavBack">
+<mvc:View 
+    xmlns="sap.m" 
+    xmlns:u="sap.uxap"
+    xmlns:layout="sap.ui.layout" 
+    xmlns:mvc="sap.ui.core.mvc" 
+    xmlns:core="sap.ui.core" 
+    controllerName="mta.MTA1.controller.CreateSurveyView">
+    <Page showNavButton="true" navButtonPress=".onNavBack">
+    <!-- <Page id="surveyDraftPage" title="Create a new Survey" showNavButton="true" navButtonPress=".onNavBack">
         
 		<VBox class="surveyContainer">
             <Label text="Survey Name:" class="inputLabel"/>
@@ -9,15 +14,10 @@
                 value="{surveyData>/surveyHeader/surveyName}"/>
 
             <Label text="Survey Description:" class="inputLabel"/>
-            <TextArea id="surveyDescriptionInput" placeholder="Enter survey description (optional)" growing="true" growingMaxLines="5" class="inputField" value="{surveyData>/surveyHeader/surveyDescription}"/>
-            <!-- <Input id="surveyDescriptionInput" placeholder="Enter survey description (optional)" class="inputField" 
-                value="{surveyData>/surveyHeader/surveyDescription}"/> -->
-
-		    <Button id="addSectionButton" text="Add Section" press=".onAddSection" type="Emphasized" enabled="false" class="inputField"/>
+            <TextArea id="surveyDescriptionInput" placeholder="Enter survey description (optional)" growing="true" growingMaxLines="5" class="inputField" value="{surveyData>/surveyHeader/surveyDescription}" width="100%"/>
         </VBox>
 
-        <!-- TabContainer for Sections -->
-        <TabContainer id="surveySectionsTabs" items="{surveyData>/surveySections}" showAddNewButton="true" addNewButtonPress="onAddSection" itemClose="onRemoveSection" visible="false" class="compactTabContainer" >
+        <TabContainer id="surveySectionsTabs" items="{surveyData>/surveySections}" showAddNewButton="true" addNewButtonPress="onAddSection" itemClose="onRemoveSection" class="compactTabContainer" >
             <items>
                 <TabContainerItem name="{surveyData>sectionName}">
                     <content>
@@ -26,7 +26,7 @@
                             <Input value="{surveyData>sectionName}" placeholder="Enter section name" class="inputField"/>
 
                             <Label text="Section Description:" class="inputLabel"/>
-                            <Input value="{surveyData>sectionDescription}" placeholder="Enter section description" class="inputField"/>
+                            <TextArea placeholder="Enter section description" growing="true" growingMaxLines="5" class="inputField" value="{surveyData>sectionDescription}" width="100%"/>
 
                             <Label text="Likert Scale Type:" class="inputLabel"/>
                             <ComboBox selectedKey="{surveyData>sectionLikertScaleType}" class="inputField">
@@ -39,7 +39,6 @@
                             <Toolbar class="toolbarMargin">
                                 <Title text="Questions"/>
                                 <ToolbarSpacer/>
-                                <Button text="Add Question" press=".onAddQuestion" class="inputField"/>
                             </Toolbar>
 
                             <List items="{surveyData>sectionQuestions}">
@@ -52,7 +51,6 @@
                                 </CustomListItem>
                             </List>
 
-                            <!-- <Button text="Remove Section" press=".onRemoveSection" type="Negative" class="inputField"/> -->
                         </VBox>
                     </content>
                 </TabContainerItem>
@@ -62,9 +60,134 @@
         <footer>
 			<OverflowToolbar>
 				<ToolbarSpacer/>
-				<Button id="submitSurveyButton" text="Submit Survey" type="Accept" press=".onReview" class="inputField" visible="false"/>
+                <Button id="addSectionButton" text="Add Section" press=".onAddSection" type="Emphasized" class="inputField"/>
+                <Button id="addQuestionButton" text="Add Question" press=".onAddQuestion" type="Emphasized" class="inputField"/>
+				<Button id="submitSurveyButton" text="Submit Survey" type="Accept" press=".onReview" class="inputField"/>
 			</OverflowToolbar>
 		</footer>
 
+    </Page> -->
+
+
+
+        <u:ObjectPageLayout id="surveyDraftPage" showTitleInHeaderContent="true">
+            <u:headerTitle>
+                <u:ObjectPageDynamicHeaderTitle>
+                    <u:actions>
+                        <!-- <OverflowToolbar> -->
+                            <Button id="addSectionButton" text="Add Section" press=".onAddSection" type="Emphasized" class="inputField"/>
+                            <Button id="addQuestionButton" text="Add Question" press=".onAddQuestion" type="Emphasized" class="inputField"/>
+                            <Button id="submitSurveyButton" text="Submit Survey" type="Accept" press=".onReview" class="inputField"/>
+                            <!-- <OverflowToolbarButton icon="sap-n://nav-back" type="Transparent" text="Back" tooltip="action"/> -->
+                        <!-- </OverflowToolbar> -->
+                    </u:actions>
+
+                    <u:expandedHeading>
+                        <Title text="Create a new Survey" wrapping="true"></Title>
+                    </u:expandedHeading>
+
+                    <u:snappedHeading>
+                        <Title text="Create a new Survey" wrapping="true"></Title>
+                    </u:snappedHeading>
+
+                    <u:expandedContent>
+                        <Text text="{surveyData>/surveyHeader/surveyName}"></Text>
+                    </u:expandedContent>
+
+                    <u:snappedContent>
+                        <Text text="{surveyData>/surveyHeader/surveyName}"></Text>
+                    </u:snappedContent>
+                </u:ObjectPageDynamicHeaderTitle>
+            </u:headerTitle>
+
+            <u:headerContent>
+                <VBox class="surveyContainer">
+                    <Label text="Survey Name:" class="inputLabel"/>
+                    <Input id="surveyNameInput" placeholder="Enter survey name" liveChange=".onSurveyNameChange" required="true" class="inputField"
+                        value="{surveyData>/surveyHeader/surveyName}"/>
+
+                    <Label text="Survey Description:" class="inputLabel"/>
+                    <TextArea id="surveyDescriptionInput" placeholder="Enter survey description (optional)" growing="true" growingMaxLines="5" class="inputField" value="{surveyData>/surveyHeader/surveyDescription}" width="100%"/>
+                    <!-- <Input id="surveyDescriptionInput" placeholder="Enter survey description (optional)" class="inputField" 
+                        value="{surveyData>/surveyHeader/surveyDescription}"/> -->
+                </VBox>
+            </u:headerContent>
+            <u:sections>
+                <u:ObjectPageSection titleUppercase="false" title="Survey Details">
+                    <u:subSections>
+                        <u:ObjectPageSubSection>
+                            <u:blocks>
+                                <!-- TabContainer for Sections -->
+                                <TabContainer id="surveySectionsTabs" items="{surveyData>/surveySections}" showAddNewButton="true" addNewButtonPress="onAddSection" itemClose="onRemoveSection">
+                                    <items>
+                                        <TabContainerItem name="{surveyData>sectionName}">
+                                            <content>
+                                                <VBox>
+
+                                                    <FlexBox class="ne-flexbox1" justifyContent="SpaceBetween">
+                                                        <VBox class="margin-vbox">
+                                                            <layoutData>
+                                                                <FlexItemData growFactor="1" baseSize="50%"/>
+                                                            </layoutData>
+                                                            <Label text="Section Name:" class="inputLabel"/>
+                                                            <Input value="{surveyData>sectionName}" placeholder="Enter section name" class="inputField"/>
+
+                                                            <Label text="Likert Scale Type:" class="inputLabel"/>
+                                                            <ComboBox selectedKey="{surveyData>sectionLikertScaleType}" class="inputField">
+                                                                <core:Item key="satisfaction" text="Satisfaction"/>
+                                                                <core:Item key="agreement" text="Agreement"/>
+                                                                <core:Item key="frequency" text="Frequency"/>
+                                                                <core:Item key="quality" text="Quality"/>
+                                                            </ComboBox>
+                                                        </VBox>
+
+                                                        <VBox class="margin-vbox">
+                                                            <layoutData>
+                                                                <FlexItemData growFactor="1" baseSize="50%"/>
+                                                            </layoutData>
+                                                            <Label text="Section Description:" class="inputLabel"/>
+                                                            <TextArea placeholder="Enter section description" growing="true" growingMaxLines="5" class="inputField" value="{surveyData>sectionDescription}" width="100%"/>
+                                                        </VBox>
+                                                    </FlexBox>
+
+                                                    <Toolbar class="toolbarMargin">
+                                                        <Title text="Questions"/>
+                                                        <ToolbarSpacer/>
+                                                    </Toolbar>
+
+                                                    <List items="{surveyData>sectionQuestions}">
+                                                        <CustomListItem>
+                                                            <VBox class="sapUiTinyMargin">
+                                                                <Label text="Question:" class="inputLabel"/>
+                                                                <FlexBox alignItems="Center" justifyContent="SpaceBetween">
+                                                                    <VBox>
+                                                                        <layoutData>
+                                                                            <FlexItemData growFactor="1" baseSize="50%"/>
+                                                                        </layoutData>
+                                                                        <Input value="{surveyData>questionText}" placeholder="Enter question" class="inputField"/>
+                                                                    </VBox>
+
+                                                                    <VBox class="sapUiMediumMarginBegin">
+                                                                        <Button icon="sap-icon://delete" press=".onRemoveQuestion" type="Reject" class="inputField"/>
+                                                                    </VBox>
+                                                                    <!-- <core:Icon src="sap-icon://delete" class="sapUiMediumMargin" backgroundColor="Critical" color="Critical" press=".onRemoveQuestion"></core:Icon> -->
+                                                                </FlexBox>
+                                                            </VBox>
+                                                        </CustomListItem>
+                                                    </List>
+
+                                                    <!-- <Button text="Remove Section" press=".onRemoveSection" type="Negative" class="inputField"/> -->
+                                                </VBox>
+                                            </content>
+                                        </TabContainerItem>
+                                    </items>
+                                </TabContainer>
+                            </u:blocks>
+                        </u:ObjectPageSubSection>
+                    </u:subSections>
+                </u:ObjectPageSection>
+            </u:sections>
+
+        </u:ObjectPageLayout>
     </Page>
 </mvc:View>
