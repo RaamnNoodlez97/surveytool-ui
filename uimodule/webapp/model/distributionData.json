@@ -1,0 +1,13 @@
+{
+    "users": "EU_ASHIRB, EU_PRIYULM",
+    "surveyId": "73",
+    "completedRespondents": "EU_ASHIRB",
+    "unfinishedRespondents": "EU_PRIYULM",
+    "targetOrgDataType": "Business Unit",
+    "targetOrgCode": "BU1",
+    "UnitOfMeasure": "Percentage",
+    "Quantity": "20",
+    "Frequency": "Daily",
+    "startDate": "2025-04-08T00:00:00Z",
+    "endDate": "2025-04-09T00:00:00Z"
+}

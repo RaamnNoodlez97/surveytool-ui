@@ -8,7 +8,7 @@ sap.ui.define(
  
         return Controller.extend("mta.MTA1.controller.MainView", {
             onInit: function () {
-                var oModel = this.getOwnerComponent().getModel("surveyData");
+                var oModel = this.getOwnerComponent().getModel("surveyDataTest");
 
                 if (oModel) {
                     // Retrieve and log the model data
@@ -19,7 +19,7 @@ sap.ui.define(
                 }
               },
               
-              onNavigateToContent: function (oEvent) {
+            onNavigateToContent: function (oEvent) {
                 var oButton = oEvent.getSource();
                 var sContentKey = oButton.getCustomData()[0].getValue();
     
@@ -33,6 +33,14 @@ sap.ui.define(
     
                 var oRouter = this.getOwnerComponent().getRouter();
                 oRouter.navTo("createSurvey", { contentType: sContentKey });
+            },
+
+            onNavigateToAssignSurvey: function (oEvent) {
+                var oButton = oEvent.getSource();
+                var sContentKey = oButton.getCustomData()[0].getValue();
+
+                var oRouter = this.getOwnerComponent().getRouter();
+                oRouter.navTo("assignSurvey", { contentType: sContentKey })
             },
 
             onTest: function(oEvent) {

@@ -53,7 +53,22 @@ sap.ui.define([
 
             oSurveyModel.loadData(sUrl)
             .then(() => {
-                console.log("Survey Data Loaded:", oSurveyModel.getData());
+                let oSurveyData = oSurveyModel.getData();
+
+                if(!oSurveyData.surveyHeader.hasOwnProperty("responseSurvey")) {
+                    oSurveyData.surveyHeader.responseSurvey = surveyId;
+                }
+        
+                // Ensure every question has an answerText initialized
+                oSurveyData.surveySections.forEach(section => {
+                    section.sectionQuestions.forEach(question => {
+                        if (!question.hasOwnProperty("answerText")) {
+                            question.answerText = 1; // Default answer value
+                        }
+                    });
+                });
+
+                console.log("Survey Data Loaded with Default Answers:", oSurveyData);
                 oView.setModel(oSurveyModel, "surveyData");
             })
             .catch(error => {

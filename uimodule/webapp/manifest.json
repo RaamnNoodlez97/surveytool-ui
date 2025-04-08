@@ -65,6 +65,14 @@
           "json": true
         },
         "uri": "model/surveyData.json"
+      },
+      "distributionDataTest": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "preload": true,
+          "json": true
+        },
+        "uri": "model/distributionData.json"
       }
     },
     "resources": {
@@ -113,6 +121,11 @@
           "target": "CreateSurvey"
         },
         {
+          "pattern": "assignSurvey",
+          "name": "assignSurvey",
+          "target": "AssignSurvey"
+        },
+        {
           "pattern": "survey/{surveyId}",
           "name": "survey",
           "target": "Survey"
@@ -132,6 +145,10 @@
         },
         "CreateSurvey": {
           "viewName": "CreateSurveyView",
+          "viewLevel": 2
+        },
+        "AssignSurvey": {
+          "viewName": "AssignSurveyView",
           "viewLevel": 2
         },
         "Survey": {

@@ -22,6 +22,11 @@
                         <core:CustomData key="content" value="CreateSurveyView"/>
                     </customData>
                 </Button>
+                <Button text="Assign Survey" press=".onNavigateToAssignSurvey">
+                    <customData>
+                        <core:CustomData key="content" value="AssignSurveyView"/>
+                    </customData>
+                </Button>
             </VBox>
 
 
