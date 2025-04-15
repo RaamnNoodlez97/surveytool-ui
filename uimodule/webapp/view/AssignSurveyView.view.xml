@@ -26,9 +26,6 @@
                     <Label text="Select Survey" />
                     <Input value="{assignSurveyModel>/surveyId}" placeholder="123" />
 
-                    <Label text="Users (Comma Separated)" />
-                    <Input value="{assignSurveyModel>/users}" placeholder="e.g. EU_ASHIRB, EU_PRIYULM" />
-
                     <Title text="Target Group" class="sapUiMediumMarginTop">
                         <layoutData>
                             <layout:GridData linebreak="true"/>
@@ -36,31 +33,35 @@
                     </Title>
                     
                     <Label text="Target Org Data Type" />
-                    <Select selectedKey="{assignSurveyModel>/targetOrgDataType}">
+                    <Select selectedKey="{assignSurveyModel>/targetOrgDataType}" change=".onOrgTypeSelect">
                         <core:Item key="Business Unit" text="Business Unit" />
                         <core:Item key="Department" text="Department" />
                         <core:Item key="Company" text="Company" />
                         <core:Item key="Cost Centre" text="Cost Centre" />
+                        <core:Item key="Select Specific Individuals" text="Select Specific Individuals" />
                     </Select>
 
-                    <Label text="Target Org Code" />
-                    <Input value="{assignSurveyModel>/targetOrgCode}" placeholder="e.g. BU1" />
+                    <Label id="orgCodeLabel" text="Target Org Code" visible="{componentVariables>/isOrgTypeSelected}"/>
+                    <Input id="orgCodeInput" value="{assignSurveyModel>/targetOrgCode}" placeholder="e.g. BU1" visible="{componentVariables>/isOrgTypeSelected}"/>
 
-                    
-                    <Title text="Selection Criteria" class="sapUiMediumMarginTop">
-                        <layoutData>
-                            <layout:GridData linebreak="true"/>
-                        </layoutData>
-                    </Title>
+                    <Label text="Users (Comma Separated)" visible="{componentVariables>/isUserTypeSelected}"/>
+                    <Input value="{assignSurveyModel>/users}" placeholder="e.g. EU_ASHIRB, EU_PRIYULM" visible="{componentVariables>/isUserTypeSelected}"/>
 
-                    <Label text="Unit of Measure" />
-                    <Select selectedKey="{assignSurveyModel>/UnitOfMeasure}">
+                    <Label text="Unit of Measure" visible="{componentVariables>/isOrgTypeSelected}"/>
+                    <Select selectedKey="{assignSurveyModel>/UnitOfMeasure}" visible="{componentVariables>/isOrgTypeSelected}">
                         <core:Item key="Percentage" text="Percentage" />
                         <core:Item key="Count" text="Count" />
                     </Select>
 
-                    <Label text="Quantity" />
-                    <Input type="Number" value="{assignSurveyModel>/Quantity}" />
+                    <Label text="Quantity" visible="{componentVariables>/isOrgTypeSelected}"/>
+                    <Input type="Number" value="{assignSurveyModel>/Quantity}" visible="{componentVariables>/isOrgTypeSelected}"/>
+
+                    
+                    <Title text="Date Criteria" class="sapUiMediumMarginTop">
+                        <layoutData>
+                            <layout:GridData linebreak="true"/>
+                        </layoutData>
+                    </Title>
 
                     <Label text="Frequency" />
                     <Select selectedKey="{assignSurveyModel>/Frequency}">

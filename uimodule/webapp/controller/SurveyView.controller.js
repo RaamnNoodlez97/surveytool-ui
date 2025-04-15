@@ -46,48 +46,47 @@ sap.ui.define([
 		},
 
         loadSurveyData: function (surveyId) {
-            let oView = this.getView();
-            let oSurveyModel = new JSONModel();
-
-            let sUrl = "/api/getSurvey?code=" + encodeURIComponent(surveyId);
-
-            oSurveyModel.loadData(sUrl)
-            .then(() => {
-                let oSurveyData = oSurveyModel.getData();
-
-                if(!oSurveyData.surveyHeader.hasOwnProperty("responseSurvey")) {
-                    oSurveyData.surveyHeader.responseSurvey = surveyId;
-                }
-        
-                // Ensure every question has an answerText initialized
-                oSurveyData.surveySections.forEach(section => {
-                    section.sectionQuestions.forEach(question => {
-                        if (!question.hasOwnProperty("answerText")) {
-                            question.answerText = 1; // Default answer value
-                        }
-                    });
-                });
-
-                console.log("Survey Data Loaded with Default Answers:", oSurveyData);
-                oView.setModel(oSurveyModel, "surveyData");
-            })
-            .catch(error => {
-                console.error("Error loading survey data:", error);
-                sap.m.MessageToast.show("Failed to load survey. Please try again.");
-            });
-
             // let oView = this.getView();
             // let oSurveyModel = new JSONModel();
 
-            // oSurveyModel.loadData("../model/surveyData.json")
+            // let sUrl = "/api/getSurvey?code=" + encodeURIComponent(surveyId);
+
+            // oSurveyModel.loadData(sUrl)
             // .then(() => {
-            //     console.log("Survey Data Loaded:", oSurveyModel.getData());
+            //     let oSurveyData = oSurveyModel.getData();
+
+            //     if(!oSurveyData.surveyHeader.hasOwnProperty("responseSurvey")) {
+            //         oSurveyData.surveyHeader.responseSurvey = surveyId;
+            //     }
+        
+            //     oSurveyData.surveySections.forEach(section => {
+            //         section.sectionQuestions.forEach(question => {
+            //             if (!question.hasOwnProperty("answerText")) {
+            //                 question.answerText = 1;
+            //             }
+            //         });
+            //     });
+
+            //     console.log("Survey Data Loaded with Default Answers:", oSurveyData);
             //     oView.setModel(oSurveyModel, "surveyData");
             // })
             // .catch(error => {
             //     console.error("Error loading survey data:", error);
-            //     sap.m.MessageToast.show("Could not load survey data.");
+            //     sap.m.MessageToast.show("Failed to load survey. Please try again.");
             // });
+
+            let oView = this.getView();
+            let oSurveyModel = new JSONModel();
+
+            oSurveyModel.loadData("../model/surveyData.json")
+            .then(() => {
+                console.log("Survey Data Loaded:", oSurveyModel.getData());
+                oView.setModel(oSurveyModel, "surveyData");
+            })
+            .catch(error => {
+                console.error("Error loading survey data:", error);
+                sap.m.MessageToast.show("Could not load survey data.");
+            });
 
         },
         

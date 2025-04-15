@@ -9,54 +9,62 @@
         <content>
             <Wizard id="surveyWizard" complete="onReview" steps="{surveyData>/surveySections}" width="100%">
                 <WizardStep title="{surveyData>sectionName}">
-                    <HBox class="sapUiSmallMarginBottom">
-                        <Text text="" width="600px"></Text>
-                        <Text text="{path: 'surveyData>sectionLikertScaleType',formatter: '.formatter.firstScale'}" width="100px"/>
-                        <Text text="{path: 'surveyData>sectionLikertScaleType',formatter: '.formatter.secondScale'}" width="100px"/>
-                        <Text text="{path: 'surveyData>sectionLikertScaleType',formatter: '.formatter.thirdScale'}" width="100px"/>
-                        <Text text="{path: 'surveyData>sectionLikertScaleType',formatter: '.formatter.fourthScale'}" width="100px"/>
-                        <Text text="{path: 'surveyData>sectionLikertScaleType',formatter: '.formatter.fifthScale'}" width="100px"/>
-                    </HBox>
+                    <layout:Grid defaultSpan="L1 M1 S1" class="sapUiSmallMarginBottom">
+                        <Label text="" design="Bold">
+                            <layoutData>
+                                <layout:GridData span="L7 M10 S12" />
+                            </layoutData>
+                        </Label>
+                        <Text text="{path: 'surveyData>sectionLikertScaleType', formatter: '.formatter.firstScale'}" />
+                        <Text text="{path: 'surveyData>sectionLikertScaleType', formatter: '.formatter.secondScale'}" />
+                        <Text text="{path: 'surveyData>sectionLikertScaleType', formatter: '.formatter.thirdScale'}" />
+                        <Text text="{path: 'surveyData>sectionLikertScaleType', formatter: '.formatter.fourthScale'}" />
+                        <Text text="{path: 'surveyData>sectionLikertScaleType', formatter: '.formatter.fifthScale'}" />
+                    </layout:Grid>
+
                     
                     <VBox items="{
                             path: 'surveyData>sectionQuestions',
                             templateShareable: false
                         }">
-                        <HBox>
-                             <Label text="{surveyData>questionText}" design="Bold" class="sapUiTinyMarginTop" width="600px"/>
-                             <RadioButtonGroup columns="5">
-                                <RadioButton text="" select=".onRadioSelect" width="100px" textAlign="Center">
-                                    <customData>
-                                        <core:CustomData key="value" value="1"/>
-                                        <core:CustomData key="questionExternalCode" value="{surveyData>questionExternalCode}"/>
-                                    </customData>
-                                </RadioButton>
-                                <RadioButton text="" select=".onRadioSelect" width="100px" textAlign="Center">
+                        <layout:Grid defaultSpan="L1 M1 S1" hSpacing="2">
+                            <Label text="{surveyData>questionText}" design="Bold" class="sapUiTinyMarginTop" wrapping="true">
+                                <layoutData>
+                                    <layout:GridData span="L7 M10 S12" linebreak="true" />
+                                </layoutData>
+                            </Label>
+                            <RadioButton select=".onRadioSelect">
                                 <customData>
-                                        <core:CustomData key="value" value="2"/>
-                                        <core:CustomData key="questionExternalCode" value="{surveyData>questionExternalCode}"/>
-                                    </customData>
-                                </RadioButton>
-                                <RadioButton text="" select=".onRadioSelect" width="100px" textAlign="Center">
+                                    <core:CustomData key="value" value="1"/>
+                                    <core:CustomData key="questionExternalCode" value="{surveyData>questionExternalCode}"/>
+                                </customData>
+                            </RadioButton>
+                            <RadioButton select=".onRadioSelect">
                                 <customData>
-                                        <core:CustomData key="value" value="3"/>
-                                        <core:CustomData key="questionExternalCode" value="{surveyData>questionExternalCode}"/>
-                                    </customData>
-                                </RadioButton>
-                                <RadioButton text="" select=".onRadioSelect" width="100px" textAlign="Center">
+                                    <core:CustomData key="value" value="2"/>
+                                    <core:CustomData key="questionExternalCode" value="{surveyData>questionExternalCode}"/>
+                                </customData>
+                            </RadioButton>
+                            <RadioButton select=".onRadioSelect">
                                 <customData>
-                                        <core:CustomData key="value" value="4"/>
-                                        <core:CustomData key="questionExternalCode" value="{surveyData>questionExternalCode}"/>
-                                    </customData>
-                                </RadioButton>
-                                <RadioButton text="" select=".onRadioSelect" width="100px" textAlign="Center">
+                                    <core:CustomData key="value" value="3"/>
+                                    <core:CustomData key="questionExternalCode" value="{surveyData>questionExternalCode}"/>
+                                </customData>
+                            </RadioButton>
+                            <RadioButton select=".onRadioSelect">
                                 <customData>
-                                        <core:CustomData key="value" value="5"/>
-                                        <core:CustomData key="questionExternalCode" value="{surveyData>questionExternalCode}"/>
-                                    </customData>
-                                </RadioButton>
-                             </RadioButtonGroup>
-                        </HBox>
+                                    <core:CustomData key="value" value="4"/>
+                                    <core:CustomData key="questionExternalCode" value="{surveyData>questionExternalCode}"/>
+                                </customData>
+                            </RadioButton>
+                            <RadioButton select=".onRadioSelect">
+                                <customData>
+                                    <core:CustomData key="value" value="5"/>
+                                    <core:CustomData key="questionExternalCode" value="{surveyData>questionExternalCode}"/>
+                                </customData>
+                            </RadioButton>
+                        </layout:Grid>
+
                     </VBox>
                 </WizardStep>
             </Wizard>
